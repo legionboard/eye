@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--
+
+	@author	Nico Alt
+	@date	16.03.2016
+
+	See the file "LICENSE" for the full license governing this code.
+
+-->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="author" content="Nico Alt">
+
+		<title>Lehrer hinzufügen</title>
+
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/jumbotron.css">
+		<link rel="stylesheet" href="css/sweetalert.css">
+	</head>
+
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html"><div class="title"></div></a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="index.html">Änderungen anzeigen</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="createChange.html">Änderung hinzufügen</a></li>
+								<li><a href="showTeachers.html">Lehrer anzeigen</a></li>
+								<li class="active"><a href="createTeacher.html">Lehrer hinzufügen <span class="sr-only">(current)</span></a></li>
+							</ul>
+						</li>
+						<li><a href='index.html' onclick='logout();'>Logout</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="jumbotron">
+			<div class="container">
+				<form>
+					<div class="row">
+						<div class="col-md-6" id="keyForm">
+							<p><b>Authentifizierung</b></p>
+							<div class="form-group">
+								<input type="text" id="username" placeholder="Name" class="form-control" autofocus/>
+							</div>
+							<div class="form-group">
+								<input type="password" id="password" placeholder="Passwort" class="form-control"/>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<p><b>Lehrer</b></p>
+							<div class="form-group">
+								<input type="text" id="name" placeholder="Name" class="form-control" required/>
+							</div>
+						</div>
+					</div>
+					<input type="submit" class="btn btn-success"/>
+				</form>
+			</div>
+		</div>
+
+		<div class="container">
+			<footer>
+				<p>&copy; 2016 <a href="https://altnico.github.io">Nico Alt</a></p>
+				<div class='versionParagraph' hidden>
+					<p>Version: <a class='version' href='https://gitlab.com/legionboard/eye' target='_blank'></a></p>
+				</div>
+				<p>Diese Seite wurde mit Hilfe von <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a> erstellt.</p>
+			</footer>
+		</div>
+
+		<script src="js/dependencies/jquery.min.js"></script>
+		<script src="js/dependencies/bootstrap.min.js"></script>
+		<script src="js/dependencies/sweetalert.min.js"></script>
+		<script src="js/dependencies/sha256.min.js"></script>
+		<script src="config/configuration.js"></script>
+		<script src="js/utilities.js"></script>
+		<script src="js/createTeacher.js"></script>
+	</body>
+</html>

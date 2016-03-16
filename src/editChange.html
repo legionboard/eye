@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--
+
+	@author	Nico Alt
+	@date	16.03.2016
+
+	See the file "LICENSE" for the full license governing this code.
+
+-->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="author" content="Nico Alt">
+
+		<title>Änderung bearbeiten</title>
+
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap-datepicker3.min.css">
+		<link rel="stylesheet" href="css/dropdowns-enhancement.css">
+		<link rel="stylesheet" href="css/jumbotron.css">
+		<link rel="stylesheet" href="css/sweetalert.css">
+	</head>
+
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html"><div class="title"></div></a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="index.html">Änderungen anzeigen</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="createChange.html">Änderung hinzufügen</a></li>
+								<li><a href="showTeachers.html">Lehrer anzeigen</a></li>
+								<li><a href="createTeacher.html">Lehrer hinzufügen</a></li>
+							</ul>
+						</li>
+						<li><a href='index.html' onclick='logout();'>Logout</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="jumbotron">
+			<div class="container">
+				<form>
+					<div class="row">
+						<div class="col-md-6" id="keyForm">
+							<p><b>Authentifizierung</b></p>
+							<div class="form-group">
+								<input type="text" id="username" placeholder="Name" class="form-control" autofocus/>
+							</div>
+							<div class="form-group">
+								<input type="password" id="password" placeholder="Passwort" class="form-control"/>
+							</div>
+						</div>
+						<div class="col-md-9" id="changeForm" hidden>
+							<p><b>Änderung</b></p>
+							<div class="row form-group">
+								<div class="col-md-4">
+									<div class="btn-group" data-toggle="buttons">
+										<label class="btn btn-default">
+											<input type="radio" id="type_0" name="type" value="0" /> Ausfall
+										</label>
+										<label class="btn btn-default">
+											<input type="radio" id="type_1" name="type" value="1" /> Vertretung
+										</label>
+										<label class="btn btn-default">
+											<input type="radio" id="type_2" name="type" value="2" /> Information
+										</label>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="btn-group" data-toggle="buttons">
+										<label class="btn btn-default">
+											<input type="radio" id="reason_0" name="reason" value="0" /> Krank
+										</label>
+										<label class="btn btn-default">
+											<input type="radio" id="reason_1" name="reason" value="1" /> Dienstlich
+										</label>
+										<label class="btn btn-default">
+											<input type="radio" id="reason_2" name="reason" value="2" /> Beurlaubt
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="row form-group">
+								<div class="col-md-8">
+									<div class="btn-group" id="teacherDrop">
+										<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" data-placeholder="Lehrer">Lehrer * <span class="caret"></span></button>
+										<ul class="dropdown-menu dropdown-scrollable"></ul>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="btn-group" id="coveringTeacherDrop">
+										<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" data-placeholder="Vertretender Lehrer">Vertretender Lehrer <span class="caret"></span></button>
+										<ul class="dropdown-menu dropdown-scrollable"></ul>
+									</div>
+								</div>
+							</div>
+							<div class="row form-group">
+								<div class="col-md-8">
+									<div class="input-group date datepicker" id="startByPicker">
+										<input type="text" id="startByDay" placeholder="Start *" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<input type="number" id="startByHour" placeholder="Stunde" class="form-control" min="0" max="20"/>
+								</div>
+							</div>
+							<div class="row form-group">
+								<div class="col-md-8">
+									<div class="input-group date datepicker" id="endByPicker">
+										<input type="text" id="endByDay" placeholder="Ende *" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<input type="number" id="endByHour" placeholder="Stunde" class="form-control" min="0" max="20"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<input type="text" id="text" placeholder="Text" class="form-control"/>
+							</div>
+							<div class="form-group">
+								<input type="text" id="privateText" placeholder="Privater Text" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<input type="submit" class="btn btn-success"/>
+				</form>
+			</div>
+		</div>
+
+		<div class="container">
+			<footer>
+				<p>&copy; 2016 <a href="https://altnico.github.io">Nico Alt</a></p>
+				<div class='versionParagraph' hidden>
+					<p>Version: <a class='version' href='https://gitlab.com/legionboard/eye' target='_blank'></a></p>
+				</div>
+				<p>Diese Seite wurde mit Hilfe von <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a> erstellt.</p>
+			</footer>
+		</div>
+
+		<script src="js/dependencies/jquery.min.js"></script>
+		<script src="js/dependencies/bootstrap.min.js"></script>
+		<script src="js/dependencies/dropdowns-enhancement.js"></script>
+		<script src="js/dependencies/bootstrap-datepicker.min.js"></script>
+		<script src="js/dependencies/bootstrap-datepicker.de.min.js"></script>
+		<script src="js/dependencies/sweetalert.min.js"></script>
+		<script src="js/dependencies/sha256.min.js"></script>
+		<script src="config/configuration.js"></script>
+		<script src="js/utilities.js"></script>
+		<script src="js/editChange.js"></script>
+	</body>
+</html>
