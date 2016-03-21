@@ -3,7 +3,7 @@
 This is the eye of [LegionBoard](https://gitlab.com/legionboard): it is
 the preferred client of its
 [REST API](https://gitlab.com/legionboard/heart) and based on HTML and
-Javascript, so that it can be run on local machines without any server
+JavaScript, so that it can be run on local machines without any server
 software. You can for example upload it to GitLab pages to have your
 own client, independent from your institution's main client. All you
 need to do is to download the source code, add your API to the
