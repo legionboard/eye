@@ -80,7 +80,7 @@ $('#changesForm').on('submit', function(e) {
 	}
 	if (startByIsNotEmpty || endByIsNotEmpty) {
 		// Get username
-		var username = $('#username').val().trim();
+		var username = $('#username').val().trim().toLowerCase();
 		// Get password
 		var password = $('#password').val().trim();
 		// Check if fields are not empty
