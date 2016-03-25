@@ -23,7 +23,37 @@ if (authKey != null && authKey != '') {
 	getTeachers();
 }
 // Toggle view switch
-if (getURLParameter('view') != 'expert') {
+var viewMode = '';
+if (getURLParameter('view') == 'expert') {
+	viewMode = 'expert';
+	if (typeof(Storage) !== "undefined") {
+		try {
+			localStorage.viewMode = viewMode;
+		}
+		catch (error) {
+			console.log(error);
+		}
+	}
+	else {
+		setCookie('viewMode', viewMode);
+	}
+}
+if (getURLParameter('view') == 'default') {
+	localStorage.removeItem('viewMode');
+	deleteCookie('viewMode');
+}
+if (typeof(Storage) !== "undefined") {
+	try {
+		viewMode = localStorage.viewMode;
+	}
+	catch (error) {
+		console.log(error);
+	}
+}
+else {
+	viewMode = getCookie('viewMode');
+}
+if (viewMode != 'expert') {
 	$('#viewDefault').hide();
 	$('#viewExpert').show();
 }
@@ -257,7 +287,7 @@ function drawTable(data) {
 		drawRow(data[i]);
 	}
 	// Show actions only when requested
-	if (getURLParameter('view') != 'expert') {
+	if (viewMode != 'expert') {
 		$(".tableAction").hide();
 	}
 	// Show reason only when available
