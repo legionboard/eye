@@ -18,7 +18,7 @@ $.ajaxSetup({ cache: false });
 function setCookie(cname, cvalue) {
 	var d = new Date();
 	var exdays = 1000;
-	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 100000));
 	var expires = "expires=" + d.toUTCString();
 	document.cookie = cname + "=" + cvalue + "; " + expires;
 }
