@@ -288,7 +288,7 @@ function drawTable(data) {
 	}
 	// Show actions only when requested
 	if (viewMode != 'expert') {
-		$(".tableAction").hide();
+		$(".expertViewOnly").hide();
 	}
 	// Show reason only when available
 	if (data[0].reason == '-') {
@@ -367,6 +367,22 @@ function drawRow(rowData) {
 		"." +
 		rowData.endBy.substring(2, 4) +
 		endByHour;
+	var added =
+		rowData.added.substring(8, 10) +
+		"." +
+		rowData.added.substring(5, 7) +
+		"." +
+		rowData.added.substring(0, 4) +
+		" " +
+		rowData.added.substring(11, 19);
+	var edited =
+		rowData.edited.substring(8, 10) +
+		"." +
+		rowData.edited.substring(5, 7) +
+		"." +
+		rowData.edited.substring(0, 4) +
+		" " +
+		rowData.edited.substring(11, 19);
 	$("#changesTable tbody").append(row);
 	row.append($("<td data-label='Lehrer' class='tableTeacher'>" + teacher + "</td>"));
 	row.append($("<td data-label='Start'>" + startBy + "</td>"));
@@ -376,7 +392,9 @@ function drawRow(rowData) {
 	row.append($("<td data-label='Vertretender Lehrer'>" + coveringTeacher + "</td>"));
 	row.append($("<td data-label='Grund' class='tableReason'>" + reason + "</td>"));
 	row.append($("<td data-label='Privater Text' class='tablePrivateText'>" + privateText + "</td>"));
-	row.append($("<td data-label='Aktion' class='tableAction'><a href='javascript:void(0)' onclick='editChange(" + rowData.id + ");'>[B]</a> <a href='javascript:void(0)' onclick='deleteChange(" + rowData.id + ");'>[L]</a></td>"));
+	row.append($("<td data-label='Erstellt' class='expertViewOnly'>" + added + "</td>"));
+	row.append($("<td data-label='Aktualisiert' class='expertViewOnly'>" + edited + "</td>"));
+	row.append($("<td data-label='Aktion' class='expertViewOnly'><a href='javascript:void(0)' onclick='editChange(" + rowData.id + ");'>[B]</a> <a href='javascript:void(0)' onclick='deleteChange(" + rowData.id + ");'>[L]</a></td>"));
 }
 
 function editChange(id) {
