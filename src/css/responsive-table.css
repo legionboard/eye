@@ -36,7 +36,7 @@
 	font-weight: bold;
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 820px) {
 	.responsiveTable thead {
 		display: none;
 	}
