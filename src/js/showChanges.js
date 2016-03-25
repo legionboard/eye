@@ -276,6 +276,7 @@ function drawTable(data) {
 }
 
 function drawRow(rowData) {
+	var days = ['So','Mo','Di','Mi','Do','Fr','Sa'];
 	var row = $("<tr />");
 	var teacher = teachers[rowData.teacher];
 	var type = "Ausfall";
@@ -321,6 +322,7 @@ function drawRow(rowData) {
 		}
 	}
 	var startBy =
+		days[(new Date(rowData.startBy.substring(0, 10))).getDay()] + ', ' +
 		rowData.startBy.substring(8, 10).replace(/^0+/, '') +
 		"." +
 		rowData.startBy.substring(5, 7).replace(/^0+/, '') +
@@ -328,6 +330,7 @@ function drawRow(rowData) {
 		rowData.startBy.substring(2, 4) +
 		startByHour;
 	var endBy =
+		days[(new Date(rowData.endBy.substring(0, 10))).getDay()] + ', ' +
 		rowData.endBy.substring(8, 10).replace(/^0+/, '') +
 		"." +
 		rowData.endBy.substring(5, 7).replace(/^0+/, '') +
