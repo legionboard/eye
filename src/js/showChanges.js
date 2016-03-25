@@ -310,7 +310,16 @@ function drawRow(rowData) {
 	// Hide hour if it's 00
 	var startByHour = (rowData.startBy.substring(11, 13) != '00') ? (" - " + rowData.startBy.substring(11, 13).replace(/^0+/, '') + ". Std") : '';
 	// Hide hour if it's 20
-	var endByHour = (rowData.endBy.substring(11, 13) != '20') ? (" - " + rowData.endBy.substring(11, 13).replace(/^0+/, '') + ". Std") : '';
+	var endByHour = '';
+	if (rowData.endBy.substring(11, 13) != '20') {
+		// Don't trim leading zeros if there are only zeros
+		if (rowData.endBy.substring(11, 13) == '00') {
+			endByHour = " - " + rowData.endBy.substring(11, 13) + ". Std";
+		}
+		else {
+			endByHour = " - " + rowData.endBy.substring(11, 13).replace(/^0+/, '') + ". Std";
+		}
+	}
 	var startBy =
 		rowData.startBy.substring(8, 10).replace(/^0+/, '') +
 		"." +
