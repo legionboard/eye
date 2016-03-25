@@ -308,22 +308,22 @@ function drawRow(rowData) {
 		privateText = rowData.privateText;
 	}
 	// Hide hour if it's 00
-	var startByHour = (rowData.startBy.substring(11, 13) != '00') ? (" - " + rowData.startBy.substring(11, 13) + ". Std") : '';
+	var startByHour = (rowData.startBy.substring(11, 13) != '00') ? (" - " + rowData.startBy.substring(11, 13).replace(/^0+/, '') + ". Std") : '';
 	// Hide hour if it's 20
-	var endByHour = (rowData.endBy.substring(11, 13) != '20') ? (" - " + rowData.endBy.substring(11, 13) + ". Std") : '';
+	var endByHour = (rowData.endBy.substring(11, 13) != '20') ? (" - " + rowData.endBy.substring(11, 13).replace(/^0+/, '') + ". Std") : '';
 	var startBy =
-		rowData.startBy.substring(8, 10) +
+		rowData.startBy.substring(8, 10).replace(/^0+/, '') +
 		"." +
-		rowData.startBy.substring(5, 7) +
+		rowData.startBy.substring(5, 7).replace(/^0+/, '') +
 		"." +
-		rowData.startBy.substring(0, 4) +
+		rowData.startBy.substring(2, 4) +
 		startByHour;
 	var endBy =
-		rowData.endBy.substring(8, 10) +
+		rowData.endBy.substring(8, 10).replace(/^0+/, '') +
 		"." +
-		rowData.endBy.substring(5, 7) +
+		rowData.endBy.substring(5, 7).replace(/^0+/, '') +
 		"." +
-		rowData.endBy.substring(0, 4) +
+		rowData.endBy.substring(2, 4) +
 		endByHour;
 	$("#changesTable tbody").append(row);
 	row.append($("<td data-label='Lehrer' class='tableTeacher'>" + teacher + "</td>"));
