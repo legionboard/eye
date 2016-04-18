@@ -1,5 +1,9 @@
 # Changelog of LegionBoard Eye
 
+## 0.1.2 (19.04.2016)
+
+* Visual improvements
+
 ## 0.1.1 (31.03.2016)
 
 * Fix bug with authentication error while filtering
