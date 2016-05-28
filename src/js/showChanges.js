@@ -278,6 +278,11 @@ function drawTeachers() {
 	}
 }
 
+// Column "text" is empty
+var textIsEmpty = true;
+// Column "covering teacher" is empty
+var coveringTeacherIsEmpty = true;
+
 function drawTable(data) {
 	data.sort(function(a, b) {
 		var dateA = new Date(a.startBy.substring(0, 10));
@@ -300,6 +305,20 @@ function drawTable(data) {
 	if (data[0].privateText == '-') {
 		$(".tablePrivateText").hide();
 	}
+	// Show covering teacher only when it is not empty
+	if (coveringTeacherIsEmpty) {
+		$(".tableCoveringTeacher").hide();
+	}
+	else {
+		$(".tableCoveringTeacher").show();
+	}
+	// Show text only when it is not empty
+	if (textIsEmpty) {
+		$(".tableText").hide();
+	}
+	else {
+		$(".tableText").show();
+	}
 	// Hide last border-bottom of each table row
 	$('#changesTable tr').find('td:visible:last').css("border-bottom", "none");
 	// Hide border-bottom of last table row
@@ -320,10 +339,12 @@ function drawRow(rowData) {
 	}
 	var coveringTeacher = "-";
 	if (rowData.coveringTeacher != 0) {
+		coveringTeacherIsEmpty = false;
 		coveringTeacher = teachers[rowData.coveringTeacher];
 	}
 	var text = "-";
 	if (rowData.text != '') {
+		textIsEmpty = false;
 		text = rowData.text;
 	}
 	var reason = '-';
@@ -390,8 +411,8 @@ function drawRow(rowData) {
 	row.append($("<td data-label='Start'>" + startBy + "</td>"));
 	row.append($("<td data-label='Ende'>" + endBy + "</td>"));
 	row.append($("<td data-label='Typ'>" + type + "</td>"));
-	row.append($("<td data-label='Text'>" + text + "</td>"));
-	row.append($("<td data-label='Vertretender Lehrer'>" + coveringTeacher + "</td>"));
+	row.append($("<td data-label='Text' class='tableText'>" + text + "</td>"));
+	row.append($("<td data-label='Vertretender Lehrer' class='tableCoveringTeacher'>" + coveringTeacher + "</td>"));
 	row.append($("<td data-label='Grund' class='tableReason'>" + reason + "</td>"));
 	row.append($("<td data-label='Privater Text' class='tablePrivateText'>" + privateText + "</td>"));
 	row.append($("<td data-label='Erstellt' class='expertViewOnly'>" + added + "</td>"));
