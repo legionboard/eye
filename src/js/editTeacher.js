@@ -138,7 +138,13 @@ function editTeacher(name) {
 }
 
 function getTeacher() {
+	// Hide form
+	$('form').hide();
 	$.getJSON(appConfig['apiRoot'] + '/teachers/' + id + '?k=' + authKey)
+	.done(function() {
+		// Show form
+		$('form').show();
+	})
 	.success(function(data) {
 		$('#name').val(data[0]['name']);
 	})

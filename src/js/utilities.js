@@ -10,6 +10,14 @@ var version = '0.1.2';
 setVersion();
 // Prevent caching in ajax calls
 $.ajaxSetup({ cache: false });
+// Show loader when first Ajax request is started
+$(document).ajaxStart(function() {
+	$('.loader').show();
+});
+// Hide loader when last Ajax request finished
+$(document).ajaxStop(function() {
+	$('.loader').hide();
+});
 
 /*
  * Cookies

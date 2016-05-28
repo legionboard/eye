@@ -201,8 +201,14 @@ function editChange(teacher, startBy, endBy, coveringTeacher, type, text, reason
 }
 
 function getTeachers() {
+	// Hide form
+	$('form').hide();
 	// Get teachers
 	$.getJSON(appConfig['apiRoot'] + '/teachers?k=' + authKey)
+	.done(function() {
+		// Show form
+		$('form').show();
+	})
 	.success(function(data) {
 		addTeachers(data);
 		// Hide key form

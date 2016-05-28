@@ -165,6 +165,8 @@ $('#startByPicker').datepicker('update', "0");
 $('#endByPicker').datepicker('update', "+7d");
 
 function getTeachers() {
+	// Hide authentication form
+	$("#authForm").hide();
 	// Get teachers
 	$.getJSON(appConfig['apiRoot'] + '/teachers?k=' + authKey)
 	.success(function(data) {

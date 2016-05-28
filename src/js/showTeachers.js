@@ -55,6 +55,8 @@ $('form').on('submit', function(e) {
 });
 
 function getTeachers() {
+	// Hide authentication form
+	$("#divForm").hide();
 	$.getJSON(appConfig['apiRoot'] + '/teachers?k=' + authKey)
 	.success(function(data) {
 		addTeachers(data);

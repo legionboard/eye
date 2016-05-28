@@ -95,3 +95,20 @@ a {
     display: none !important;
   }
 }
+
+/* Loader */
+.loader {
+	margin-left: auto;
+	margin-right: auto;
+	border: 10px solid #eee	; /* grey of jumbotron background */
+	border-top: 10px solid #e74c3c; /* Red of navigation bar */
+	border-radius: 100%;
+	width: 60px;
+	height: 60px;
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
