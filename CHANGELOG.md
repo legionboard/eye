@@ -1,5 +1,10 @@
 # Changelog of LegionBoard Eye
 
+## 0.1.3 (03.06.2016)
+
+* Show loading animation
+* Hide empty columns
+
 ## 0.1.2 (19.04.2016)
 
 * Visual improvements
