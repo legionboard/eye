@@ -279,10 +279,9 @@ function drawTeachers() {
 }
 
 // Column "text" is empty
-var textIsEmpty = true;
+var textIsEmpty;
 // Column "covering teacher" is empty
-var coveringTeacherIsEmpty = true;
-
+var coveringTeacherIsEmpty;
 function drawTable(data) {
 	data.sort(function(a, b) {
 		var dateA = new Date(a.startBy.substring(0, 10));
@@ -290,6 +289,8 @@ function drawTable(data) {
 		// Sort by date ascending
 		return dateA - dateB;
 	});
+	textIsEmpty = true;
+	coveringTeacherIsEmpty = true;
 	for (var i = 0; i < data.length; i++) {
 		drawRow(data[i]);
 	}
