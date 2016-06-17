@@ -1,5 +1,7 @@
 # LegionBoard Eye
 
+[![Code Climate](https://codeclimate.com/github/legionboard/eye/badges/gpa.svg)](https://codeclimate.com/github/legionboard/eye)
+
 This is the eye of [LegionBoard](https://legionboard.github.io): it is
 the preferred client of its
 [REST API](https://gitlab.com/legionboard/heart) and based on HTML and
