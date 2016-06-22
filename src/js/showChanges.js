@@ -282,17 +282,61 @@ function drawTeachers() {
 var textIsEmpty;
 // Column "covering teacher" is empty
 var coveringTeacherIsEmpty;
+// Array index numbers of double changes (changes with same data except teacher/course)
+var doubles = {};
+// Changes IDs that are shown within other changes
+var alreadyShown = {};
+
 function drawTable(data) {
+	// Sort ascending by date
 	data.sort(function(a, b) {
 		var dateA = new Date(a.startBy.substring(0, 10));
 		var dateB = new Date(b.startBy.substring(0, 10));
-		// Sort by date ascending
 		return dateA - dateB;
 	});
+	// Find doubles (changes with same data except teacher/course)
+	for (var left = 0; left < data.length; left++) {
+		for (var right = left + 1; right < data.length; right++) {
+			// Temporary left array
+			var leftArray = data[left];
+			// Temporary right array
+			var rightArray = data[right];
+			// Data on left side
+			var leftData =
+				leftArray.startBy +
+				leftArray.endBy +
+				leftArray.type +
+				leftArray.coveringTeacher +
+				leftArray.text +
+				leftArray.reason +
+				leftArray.privateText;
+			// Data on right side
+			var rightData =
+				rightArray.startBy +
+				rightArray.endBy +
+				rightArray.type +
+				rightArray.coveringTeacher +
+				rightArray.text +
+				rightArray.reason +
+				rightArray.privateText;
+			// If left side data equals right side data
+			if (leftData === rightData) {
+				alreadyShown[rightArray.id] = true;
+				// Link left side change ID to right side index number
+				if (doubles[leftArray.id] == null) {
+					doubles[leftArray.id] = right.toString();
+					continue;
+				}
+				doubles[leftArray.id] += "," + right;
+			}
+		}
+	}
 	textIsEmpty = true;
 	coveringTeacherIsEmpty = true;
 	for (var i = 0; i < data.length; i++) {
-		drawRow(data[i]);
+		if (!alreadyShown[data[i].id]) {
+			drawRow(data[i], data);
+		}
 	}
 	// Show actions only when requested
 	if (viewMode != 'expert') {
@@ -327,10 +371,16 @@ function drawTable(data) {
 	scrollTo('#changesTable');
 }
 
-function drawRow(rowData) {
+function drawRow(rowData, allData) {
 	var days = ['So','Mo','Di','Mi','Do','Fr','Sa'];
 	var row = $("<tr />");
 	var teacher = teachers[rowData.teacher];
+	// Append other teachers with same data
+	if (rowData.id in doubles) {
+		doubles[rowData.id].split(',').forEach(function(entry) {
+			teacher += "; " + teachers[allData[entry].teacher];
+		});
+	}
 	var type = "Ausfall";
 	if (rowData.type == 1) {
 		type = "Vertretung";
