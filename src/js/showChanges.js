@@ -283,9 +283,9 @@ var textIsEmpty;
 // Column "covering teacher" is empty
 var coveringTeacherIsEmpty;
 // Array index numbers of double changes (changes with same data except teacher/course)
-var doubles = {};
+var doubles;
 // Changes IDs that are shown within other changes
-var alreadyShown = {};
+var alreadyShown;
 
 function drawTable(data) {
 	// Sort alphabetically by teacher name
@@ -304,6 +304,8 @@ function drawTable(data) {
 		var dateB = new Date(b.startBy.substring(0, 10));
 		return dateA - dateB;
 	});
+	doubles = {};
+	alreadyShown = {};
 	// Find doubles (changes with same data except teacher/course)
 	for (var left = 0; left < data.length; left++) {
 		for (var right = left + 1; right < data.length; right++) {
