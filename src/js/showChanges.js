@@ -288,6 +288,16 @@ var doubles = {};
 var alreadyShown = {};
 
 function drawTable(data) {
+	// Sort alphabetically by teacher name
+	data.sort(function(a, b) {
+		if (teachers[a.teacher] < teachers[b.teacher]) {
+			return -1;
+		}
+		if (teachers[a.teacher] > teachers[b.teacher]) {
+			return 1;
+		}
+		return 0;
+	});
 	// Sort ascending by date
 	data.sort(function(a, b) {
 		var dateA = new Date(a.startBy.substring(0, 10));
