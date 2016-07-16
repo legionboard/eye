@@ -244,8 +244,15 @@ function getChanges(startBy, endBy, teacher) {
 	});
 }
 
+// Teacher IDs of archived ones
+var archivedTeachers;
 function addTeachers(data) {
+	archivedTeachers = {};
 	for (var i = 0; i < data.length; i++) {
+		// Do not add if teacher is archived
+		if (data[i].archived == 'true') {
+			archivedTeachers[data[i].id] = true;
+		}
 		addTeacher(data[i]);
 	}
 }
@@ -267,14 +274,13 @@ function drawTeachers() {
 		return x < y ? -1 : x > y ? 1 : 0;
 	});
 	for (var key in sortable) {
-		if (sortable[key][0] == '1') {
-			continue;
+		if (!archivedTeachers[sortable[key][0]]) {
+			var row = '<li>' +
+						'<input id="teacherCheck_' + sortable[key][0] + '" name="teacherCheck" value="' + sortable[key][0] + '" type="checkbox">' +
+						'<label for="teacherCheck_' + sortable[key][0] + '">' + sortable[key][1] + '</label>' +
+						'</li>';
+			$("#teacherDrop ul").append(row);
 		}
-		var row = '<li>' +
-					'<input id="teacherCheck_' + sortable[key][0] + '" name="teacherCheck" value="' + sortable[key][0] + '" type="checkbox">' +
-					'<label for="teacherCheck_' + sortable[key][0] + '">' + sortable[key][1] + '</label>' +
-					'</li>';
-		$("#teacherDrop ul").append(row);
 	}
 }
 

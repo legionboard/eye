@@ -122,6 +122,13 @@ function drawTable(data) {
 function drawRow(rowData) {
 	var row = $("<tr />");
 	var name = rowData.name;
+	var archived = rowData.archived;
+	if (archived == 'true') {
+		archived = '\u2713';
+	}
+	else {
+		archived = '\u2717';
+	}
 	var added =
 		rowData.added.substring(8, 10) +
 		"." +
@@ -140,6 +147,7 @@ function drawRow(rowData) {
 		rowData.edited.substring(11, 19);
 	$("#teachersTable tbody").append(row);
 	row.append($("<td data-label='Name' class='tableTeacher'>" + name + "</td>"));
+	row.append($("<td data-label='Archiviert'>" + archived + "</td>"));
 	row.append($("<td data-label='Erstellt'>" + added + "</td>"));
 	row.append($("<td data-label='Aktualisiert'>" + edited + "</td>"));
 	if (rowData.id != 1) {

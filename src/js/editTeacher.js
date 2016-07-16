@@ -85,10 +85,10 @@ $('form').on('submit', function(e) {
 		}
 	}
 	else {
-		// Get teacher name
 		var name = $('#name').val().trim();
+		var archived = $('#archived').is(':checked');
 		if (name.length != 0) {
-			editTeacher(name);
+			editTeacher(name, archived);
 		}
 		else {
 			sweetAlert("Ups...", "Du musst einen Namen für den Lehrer angeben.", "error");
@@ -96,19 +96,20 @@ $('form').on('submit', function(e) {
 	}
 });
 
-function editTeacher(name) {
+function editTeacher(name, archived) {
 	$.ajax({
 		url: appConfig['apiRoot'] + '/teachers/' + id,
 		data: {
 			k: authKey,
-			name: name
+			name: name,
+			archived: archived
 		},
 		type: 'PUT'
 	})
 	.success(function(data) {
 		sweetAlert({
 			title: 'Geändert!',
-			text: 'Der Name des Lehrers wurde erfolgreich geändert.',
+			text: 'Der Lehrer wurde erfolgreich geändert.',
 			type: 'success'
 		},
 		function() {
@@ -147,6 +148,7 @@ function getTeacher() {
 	})
 	.success(function(data) {
 		$('#name').val(data[0]['name']);
+		$('#archived').prop('checked', (data[0]['archived'] == 'true') ? true : false);
 	})
 	.fail(function(jqXHR, textStatus, errorThrown) {
 		console.log('Getting teachers failed.');

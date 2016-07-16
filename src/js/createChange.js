@@ -234,6 +234,10 @@ function getTeachers() {
 
 function addTeachers(data) {
 	for (var i = 0; i < data.length; i++) {
+		// Do not add if teacher is archived
+		if (data[i].archived == 'true') {
+			continue;
+		}
 		teachers[data[i].id] = data[i].name;
 	}
 }
