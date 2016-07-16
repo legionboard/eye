@@ -298,6 +298,16 @@ function drawTable(data) {
 		}
 		return 0;
 	});
+	// Sort ascending by hour
+	data.sort(function(a, b) {
+		if (a.startingHour < b.startingHour) {
+			return -1;
+		}
+		if (a.startingHour > b.startingHour) {
+			return 1;
+		}
+		return 0;
+	});
 	// Sort ascending by date
 	data.sort(function(a, b) {
 		var dateA = new Date(a.startingDate);
