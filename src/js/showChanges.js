@@ -300,8 +300,8 @@ function drawTable(data) {
 	});
 	// Sort ascending by date
 	data.sort(function(a, b) {
-		var dateA = new Date(a.startBy.substring(0, 10));
-		var dateB = new Date(b.startBy.substring(0, 10));
+		var dateA = new Date(a.startingDate);
+		var dateB = new Date(b.startingDate);
 		return dateA - dateB;
 	});
 	doubles = {};
@@ -315,8 +315,10 @@ function drawTable(data) {
 			var rightArray = data[right];
 			// Data on left side
 			var leftData =
-				leftArray.startBy +
-				leftArray.endBy +
+				leftArray.startingDate +
+				leftArray.startingHour +
+				leftArray.endingDate +
+				leftArray.endingHour +
 				leftArray.type +
 				leftArray.coveringTeacher +
 				leftArray.text +
@@ -324,8 +326,10 @@ function drawTable(data) {
 				leftArray.privateText;
 			// Data on right side
 			var rightData =
-				rightArray.startBy +
-				rightArray.endBy +
+				rightArray.startingDate +
+				rightArray.startingHour +
+				rightArray.endingDate +
+				rightArray.endingHour +
 				rightArray.type +
 				rightArray.coveringTeacher +
 				rightArray.text +
@@ -421,54 +425,62 @@ function drawRow(rowData, allData) {
 		privateText = rowData.privateText;
 	}
 	// Hide hour if it's 00
-	var startByHour = (rowData.startBy.substring(11, 13) != '00') ? (" - " + rowData.startBy.substring(11, 13).replace(/^0+/, '') + ". Std") : '';
+	var startingHour = rowData.startingHour;
 	// Hide hour if it's 20
-	var endByHour = '';
-	if (rowData.endBy.substring(11, 13) != '20') {
-		// Don't trim leading zeros if there are only zeros
-		if (rowData.endBy.substring(11, 13) == '00') {
-			endByHour = " - " + rowData.endBy.substring(11, 13) + ". Std";
+	var endingHour = rowData.endingHour;
+	var hours = '-';
+	if (startingHour != '' || endingHour != '') {
+		if (startingHour != '' && endingHour == '') {
+			hours = 'Ab ' + startingHour.replace(/^0+/, '') + '. Std.';
 		}
-		else {
-			endByHour = " - " + rowData.endBy.substring(11, 13).replace(/^0+/, '') + ". Std";
+		if (startingHour == '' && endingHour != '') {
+			hours = 'Bis ' + endingHour.replace(/^0+/, '') + '. Std.';
+		}
+		if (startingHour != '' && endingHour != '') {
+			hours = startingHour.replace(/^0+/, '') + '. - ' + endingHour.replace(/^0+/, '') + '. Std.';
 		}
 	}
 	var startBy =
-		days[(new Date(rowData.startBy.substring(0, 10))).getDay()] + ', ' +
-		rowData.startBy.substring(8, 10).replace(/^0+/, '') +
+		days[(new Date(rowData.startingDate)).getDay()] + ', ' +
+		rowData.startingDate.substring(8, 10).replace(/^0+/, '') +
 		"." +
-		rowData.startBy.substring(5, 7).replace(/^0+/, '') +
+		rowData.startingDate.substring(5, 7).replace(/^0+/, '') +
 		"." +
-		rowData.startBy.substring(2, 4) +
-		startByHour;
+		rowData.startingDate.substring(2, 4);
 	var endBy =
-		days[(new Date(rowData.endBy.substring(0, 10))).getDay()] + ', ' +
-		rowData.endBy.substring(8, 10).replace(/^0+/, '') +
+		days[(new Date(rowData.endingDate)).getDay()] + ', ' +
+		rowData.endingDate.substring(8, 10).replace(/^0+/, '') +
 		"." +
-		rowData.endBy.substring(5, 7).replace(/^0+/, '') +
+		rowData.endingDate.substring(5, 7).replace(/^0+/, '') +
 		"." +
-		rowData.endBy.substring(2, 4) +
-		endByHour;
-	var added =
-		rowData.added.substring(8, 10) +
-		"." +
-		rowData.added.substring(5, 7) +
-		"." +
-		rowData.added.substring(0, 4) +
-		" " +
-		rowData.added.substring(11, 19);
-	var edited =
-		rowData.edited.substring(8, 10) +
-		"." +
-		rowData.edited.substring(5, 7) +
-		"." +
-		rowData.edited.substring(0, 4) +
-		" " +
-		rowData.edited.substring(11, 19);
+		rowData.endingDate.substring(2, 4);
+	var added = rowData.added;
+	if (added != '-') {
+		added =
+			rowData.added.substring(8, 10) +
+			"." +
+			rowData.added.substring(5, 7) +
+			"." +
+			rowData.added.substring(0, 4) +
+			" " +
+			rowData.added.substring(11, 19);
+	}
+	var edited = rowData.edited;
+	if (edited != '-') {
+		edited =
+			rowData.edited.substring(8, 10) +
+			"." +
+			rowData.edited.substring(5, 7) +
+			"." +
+			rowData.edited.substring(0, 4) +
+			" " +
+			rowData.edited.substring(11, 19);
+	}
 	$("#changesTable tbody").append(row);
 	row.append($("<td data-label='Lehrer' class='tableTeacher'>" + teacher + "</td>"));
 	row.append($("<td data-label='Start'>" + startBy + "</td>"));
 	row.append($("<td data-label='Ende'>" + endBy + "</td>"));
+	row.append($("<td data-label='Stunden' class='tableHours'>" + hours + "</td>"));
 	row.append($("<td data-label='Typ'>" + type + "</td>"));
 	row.append($("<td data-label='Text' class='tableText'>" + text + "</td>"));
 	row.append($("<td data-label='Vertretender Lehrer' class='tableCoveringTeacher'>" + coveringTeacher + "</td>"));
