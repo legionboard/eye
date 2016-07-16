@@ -363,18 +363,14 @@ function drawTable(data) {
 		$(".tablePrivateText").hide();
 	}
 	// Show covering teacher only when it is not empty
+	$(".tableCoveringTeacher").show();
 	if (coveringTeacherIsEmpty) {
 		$(".tableCoveringTeacher").hide();
 	}
-	else {
-		$(".tableCoveringTeacher").show();
-	}
 	// Show text only when it is not empty
+	$(".tableText").show();
 	if (textIsEmpty) {
 		$(".tableText").hide();
-	}
-	else {
-		$(".tableText").show();
 	}
 	// Hide last border-bottom of each table row
 	$('#changesTable tr').find('td:visible:last').css("border-bottom", "none");
