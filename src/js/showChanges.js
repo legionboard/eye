@@ -366,6 +366,18 @@ function drawTable(data) {
 	if (data[0].privateText == '-') {
 		$(".tablePrivateText").hide();
 	}
+	// Show hours only when available
+	if (data[0].startingHour == '-' || data[0].endingHour == '-') {
+		$(".tableHours").hide();
+	}
+	// Show added only when available
+	if (data[0].added == '-') {
+		$(".tableAdded").hide();
+	}
+	// Show edited only when available
+	if (data[0].edited == '-') {
+		$(".tableEdited").hide();
+	}
 	// Show covering teacher only when it is not empty
 	$(".tableCoveringTeacher").show();
 	if (coveringTeacherIsEmpty) {
@@ -486,8 +498,8 @@ function drawRow(rowData, allData) {
 	row.append($("<td data-label='Vertretender Lehrer' class='tableCoveringTeacher'>" + coveringTeacher + "</td>"));
 	row.append($("<td data-label='Grund' class='tableReason'>" + reason + "</td>"));
 	row.append($("<td data-label='Privater Text' class='tablePrivateText'>" + privateText + "</td>"));
-	row.append($("<td data-label='Erstellt' class='expertViewOnly'>" + added + "</td>"));
-	row.append($("<td data-label='Aktualisiert' class='expertViewOnly'>" + edited + "</td>"));
+	row.append($("<td data-label='Erstellt' class='expertViewOnly tableAdded'>" + added + "</td>"));
+	row.append($("<td data-label='Aktualisiert' class='expertViewOnly tableEdited'>" + edited + "</td>"));
 	row.append($("<td data-label='Aktion' class='expertViewOnly'><a href='javascript:void(0)' onclick='editChange(" + rowData.id + ");'>[B]</a> <a href='javascript:void(0)' onclick='deleteChange(" + rowData.id + ");'>[L]</a></td>"));
 }
 
