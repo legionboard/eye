@@ -103,7 +103,7 @@ $('form').on('submit', function(e) {
 		// Get privateText
 		var privateText = $('#privateText').val().trim();
 
-		if (type == null || teacher.length == 0 || startByDay.length == 0 || endByDay.length == 0 ||
+		if (type == null || startByDay.length == 0 || endByDay.length == 0 ||
 			(type == 1 && coveringTeacher == null) ||
 			(type == 2 && text.length == 0)) {
 			scrollTo('#changeForm');

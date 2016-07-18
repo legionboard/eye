@@ -421,6 +421,9 @@ function drawRow(rowData, allData) {
 			teacher += "; " + teachers[allData[entry].teacher];
 		});
 	}
+	if (teacher == null) {
+		teacher = '-';
+	}
 	var type = "Ausfall";
 	if (rowData.type == 1) {
 		type = "Vertretung";
