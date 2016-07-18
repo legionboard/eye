@@ -482,8 +482,9 @@ function drawRow(rowData, allData) {
 		rowData.endingDate.substring(5, 7).replace(/^0+/, '') +
 		"." +
 		rowData.endingDate.substring(2, 4);
-	var added = rowData.added;
-	if (added != '-') {
+	var added = '-';
+	// Only show added if change contains no doubles
+	if (rowData.added != '-' && !(rowData.id in doubles)) {
 		added =
 			rowData.added.substring(8, 10) +
 			"." +
@@ -493,8 +494,10 @@ function drawRow(rowData, allData) {
 			" " +
 			rowData.added.substring(11, 19);
 	}
-	var edited = rowData.edited;
-	if (edited != '-') {
+	}
+	var edited = '-';
+	// Only show edited if change contains no doubles
+	if (rowData.edited != '-' && !(rowData.id in doubles)) {
 		edited =
 			rowData.edited.substring(8, 10) +
 			"." +
@@ -503,6 +506,7 @@ function drawRow(rowData, allData) {
 			rowData.edited.substring(0, 4) +
 			" " +
 			rowData.edited.substring(11, 19);
+	}
 	}
 	$("#changesTable tbody").append(row);
 	row.append($("<td data-label='Lehrer' class='tableTeacher'>" + teacher + "</td>"));
