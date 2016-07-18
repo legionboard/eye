@@ -88,14 +88,14 @@ $('form').on('submit', function(e) {
 		});
 		// Get covering teacher
 		var coveringTeacher = $('input[name="coveringTeacherCheck"]:checked').val();
-		// Get startBy day
-		var startByDay = $('#startByDay').val().trim();
-		// Get startBy hour
-		var startByHour = $('#startByHour').val().trim();
-		// Get endBy day
-		var endByDay = $('#endByDay').val().trim();
-		// Get endBy hour
-		var endByHour = $('#endByHour').val().trim();
+		// Get starting date
+		var startingDate = $('#startingDate').val().trim();
+		// Get starting hour
+		var startingHour = $('#startingHour').val().trim();
+		// Get ending date
+		var endingDate = $('#endingDate').val().trim();
+		// Get ending hour
+		var endingHour = $('#endingHour').val().trim();
 		// Get text
 		var text = $('#text').val().trim();
 		// Get reason
@@ -103,7 +103,7 @@ $('form').on('submit', function(e) {
 		// Get privateText
 		var privateText = $('#privateText').val().trim();
 
-		if (type == null || startByDay.length == 0 || endByDay.length == 0 ||
+		if (type == null || startingDate.length == 0 || endingDate.length == 0 ||
 			(type == 1 && coveringTeacher == null) ||
 			(type == 2 && text.length == 0)) {
 			scrollTo('#changeForm');
@@ -112,39 +112,40 @@ $('form').on('submit', function(e) {
 			sweetAlert('Ups...', 'Bitte überprüfe, ob Du alle Felder ausgefüllt hast!', 'error');
 		}
 		else {
-			if (startByHour.length == 0) {
-				startByHour = '0';
-			}
-			if (endByHour.length == 0) {
-				endByHour = '20';
-			}
 			// Convert e.g. 4 to 04 but keep e.g. 12 like it is
-			startByHour = (2 - startByHour.length > 0) ? new Array(2 + 1 - startByHour.length).join('0') + startByHour : startByHour;
-			endByHour = (2 - endByHour.length > 0) ? new Array(2 + 1 - endByHour.length).join('0') + endByHour : endByHour;
+			if (startingHour.length != 0 && 2 - startingHour.length > 0) {
+				startingHour = new Array(2 + 1 - startingHour.length).join('0');
+			}
+			if (endingHour.length != 0 && 2 - endingHour.length > 0) {
+				endingHour = new Array(2 + 1 - endingHour.length).join('0');
+			}
 			// Format to ISO 8601
-			startByDay = startByDay.substring(6, 10) + '-' + startByDay.substring(3, 5) + '-' + startByDay.substring(0, 2);
-			endByDay = endByDay.substring(6, 10) + '-' + endByDay.substring(3, 5) + '-' + endByDay.substring(0, 2);
-			if ((new Date(startByDay)) > (new Date(endByDay))) {
+			startingDate = startingDate.substring(6, 10) + '-' + startingDate.substring(3, 5) + '-' + startingDate.substring(0, 2);
+			endingDate = endingDate.substring(6, 10) + '-' + endingDate.substring(3, 5) + '-' + endingDate.substring(0, 2);
+			if ((new Date(startingDate)) > (new Date(endingDate))) {
 				sweetAlert('Ups...', 'Der Start muss vor dem Ende sein.', 'error');
 			}
 			else {
-				var startBy = startByDay + 'T' + startByHour;
-				var endBy = endByDay + 'T' + endByHour;
+				if (teacher.length == 0) {
+					createChange(null, startingDate, startingHour, endingDate, endingHour, coveringTeacher, type, text, reason, privateText);
+				}
 				for(var i = 0; i < teacher.length; i++) {
-					createChange(teacher[i], startBy, endBy, coveringTeacher, type, text, reason, privateText);
+					createChange(teacher[i], startingDate, startingHour, endingDate, endingHour, coveringTeacher, type, text, reason, privateText);
 				}
 			}
 		}
 	}
 });
 
-function createChange(teacher, startBy, endBy, coveringTeacher, type, text, reason, privateText) {
+function createChange(teacher, startingDate, startingHour, endingDate, endingHour, coveringTeacher, type, text, reason, privateText) {
 	$.post(appConfig['apiRoot'] + '/changes',
 	{
 		k: authKey,
 		teacher: teacher,
-		startBy: startBy,
-		endBy: endBy,
+		startingDate: startingDate,
+		startingHour: startingHour,
+		endingDate: endingDate,
+		endingHour: endingHour,
 		coveringTeacher: coveringTeacher,
 		type: type,
 		text: text,
@@ -159,10 +160,10 @@ function createChange(teacher, startBy, endBy, coveringTeacher, type, text, reas
 		},
 		function() {
 			// Clear fields
-			$('#startByDay').val('');
-			$('#startByHour').val('');
-			$('#endByDay').val('');
-			$('#endByHour').val('');
+			$('#startingDate').val('');
+			$('#startingHour').val('');
+			$('#endingDate').val('');
+			$('#endingHour').val('');
 			$('#text').val('');
 			$('#privateText').val('');
 			location.reload();
