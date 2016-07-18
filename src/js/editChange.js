@@ -117,7 +117,7 @@ $('form').on('submit', function(e) {
 		// Get privateText
 		var privateText = $('#privateText').val().trim();
 
-		if (type == null || teacher.length == 0 || startByDay.length == 0 || endByDay.length == 0 ||
+		if (type == null || startByDay.length == 0 || endByDay.length == 0 ||
 			(type == 1 && coveringTeacher == null) ||
 			(type == 2 && text.length == 0)) {
 			scrollTo('#changeForm');
@@ -144,6 +144,9 @@ $('form').on('submit', function(e) {
 			else {
 				var startBy = startByDay + 'T' + startByHour;
 				var endBy = endByDay + 'T' + endByHour;
+				if (teacher.length == 0) {
+					editChange(null, startBy, endBy, coveringTeacher, type, text, reason, privateText);
+				}
 				for(var i = 0; i < teacher.length; i++) {
 					editChange(teacher[i], startBy, endBy, coveringTeacher, type, text, reason, privateText);
 				}
