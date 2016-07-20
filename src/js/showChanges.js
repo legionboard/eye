@@ -497,7 +497,6 @@ function drawRow(rowData, allData) {
 			" " +
 			rowData.added.substring(11, 19);
 	}
-	}
 	var edited = '-';
 	// Only show edited if change contains no doubles
 	if (rowData.edited != '-' && !(rowData.id in doubles)) {
@@ -509,7 +508,6 @@ function drawRow(rowData, allData) {
 			rowData.edited.substring(0, 4) +
 			" " +
 			rowData.edited.substring(11, 19);
-	}
 	}
 	$("#changesTable tbody").append(row);
 	row.append($("<td data-label='Lehrer' class='tableTeacher'>" + teacher + "</td>"));
