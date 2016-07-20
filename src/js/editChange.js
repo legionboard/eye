@@ -291,16 +291,20 @@ function drawTeachers() {
 	});
 	teachers = sortable;
 	for (var key in teachers) {
+		var teacherId = teachers[key][0];
+		var teacherName = teachers[key][1];
 		var row = '<li>' +
-					'<input id="teacherCheck_' + teachers[key][0] + '" name="teacherCheck" value="' + teachers[key][0] + '" type="checkbox">' +
-					'<label for="teacherCheck_' + teachers[key][0] + '">' + teachers[key][1] + '</label>' +
+					'<input id="teacherCheck_' + teacherId + '" name="teacherCheck" value="' + teacherId + '" type="checkbox">' +
+					'<label for="teacherCheck_' + teacherId + '">' + teacherName + '</label>' +
 					'</li>';
 		$("#teacherDrop ul").append(row);
 	}
 	for (var key in teachers) {
+		var teacherId = teachers[key][0];
+		var teacherName = teachers[key][1];
 		var row = '<li>' +
-					'<input id="coveringTeacherCheck_' + teachers[key][0] + '" name="coveringTeacherCheck" value="' + teachers[key][0] + '" type="radio">' +
-					'<label for="coveringTeacherCheck_' + teachers[key][0] + '">' + teachers[key][1] + '</label>' +
+					'<input id="coveringTeacherCheck_' + teacherId + '" name="coveringTeacherCheck" value="' + teacherId + '" type="radio">' +
+					'<label for="coveringTeacherCheck_' + teacherId + '">' + teacherName + '</label>' +
 					'</li>';
 		$("#coveringTeacherDrop ul").append(row);
 	}
@@ -308,26 +312,31 @@ function drawTeachers() {
 
 function insert(data) {
 	// Set type
-	if (data['type'] == '0' || data['type'] == '1' || data['type'] == '2') {
-		document.getElementById('type_' + data['type']).checked = true;
-		$('#type_' + data['type']).parent().addClass('active');
+	var type = data['type'];
+	if (type == '0' || type == '1' || type == '2') {
+		document.getElementById('type_' + type).checked = true;
+		$('#type_' + type).parent().addClass('active');
 	}
 	else {
 		sweetAlert("Ups...", "Es gab einen Fehler. Bitte versuche es später erneut.", "error");
 	}
 	// Set teacher
-	document.getElementById('teacherCheck_' + data['teacher']).checked = true;
-	$('#teacherCheck_' + data['teacher']).parent().addClass('active');
-	var teacherName = teachers.filter(function(obj) {
-			return obj[0] == data['teacher'];
-		})[0][1];
-	$("#teacherDrop button").text(teacherName);
-	// Set covering teacher
-	if (data['coveringTeacher'] != 0) {
-		document.getElementById('coveringTeacherCheck_' + data['coveringTeacher']).checked = true;
-		$('#coveringTeacherCheck_' + data['coveringTeacher']).parent().addClass('active');
+	var teacher = data['teacher'];
+	if (teacher != 0) {
+		document.getElementById('teacherCheck_' + teacher).checked = true;
+		$('#teacherCheck_' + teacher).parent().addClass('active');
 		var teacherName = teachers.filter(function(obj) {
-				return obj[0] == data['coveringTeacher'];
+				return obj[0] == teacher;
+			})[0][1];
+		$("#teacherDrop button").text(teacherName);
+	}
+	// Set covering teacher
+	var coveringTeacher = data['coveringTeacher'];
+	if (coveringTeacher != 0) {
+		document.getElementById('coveringTeacherCheck_' + coveringTeacher).checked = true;
+		$('#coveringTeacherCheck_' + coveringTeacher).parent().addClass('active');
+		var teacherName = teachers.filter(function(obj) {
+				return obj[0] == coveringTeacher;
 			})[0][1];
 		$("#coveringTeacherDrop button").text(teacherName);
 	}
@@ -344,15 +353,17 @@ function insert(data) {
 	// Set text
 	$('#text').val(data['text']);
 	// Set reason
-	if (data['reason'] == '0' || data['reason'] == '1' || data['reason'] == '2') {
-		document.getElementById('reason_' + data['reason']).checked = true;
-		$('#reason_' + data['reason']).parent().addClass('active');
+	var reason = data['reason'];
+	if (reason == '0' || reason == '1' || reason == '2') {
+		document.getElementById('reason_' + reason).checked = true;
+		$('#reason_' + reason).parent().addClass('active');
 	}
-	else if (data['reason'] != '' && data['reason'] != '-') {
+	else if (reason != '' && reason != '-') {
 		sweetAlert("Ups...", "Es gab einen Fehler. Bitte versuche es später erneut.", "error");
 	}
 	// Set privateText
-	if (data['privateText'] != '-') {
-		$('#privateText').val(data['privateText']);
+	var privateText = data['privateText'];
+	if (privateText != '-') {
+		$('#privateText').val(privateText);
 	}
 }
