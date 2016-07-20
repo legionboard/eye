@@ -113,11 +113,11 @@ $('form').on('submit', function(e) {
 		}
 		else {
 			// Convert e.g. 4 to 04 but keep e.g. 12 like it is
-			if (startingHour.length != 0 && 2 - startingHour.length > 0) {
-				startingHour = new Array(2 + 1 - startingHour.length).join('0');
+			if (startingHour.length == 1) {
+				startingHour = '0' + startingHour;
 			}
-			if (endingHour.length != 0 && 2 - endingHour.length > 0) {
-				endingHour = new Array(2 + 1 - endingHour.length).join('0');
+			if (endingHour.length == 1) {
+				endingHour = '0' + endingHour;
 			}
 			// Format to ISO 8601
 			startingDate = startingDate.substring(6, 10) + '-' + startingDate.substring(3, 5) + '-' + startingDate.substring(0, 2);
