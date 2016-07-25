@@ -5,18 +5,7 @@
  * See the file "LICENSE" for the full license governing this code.
  */
 // The authentication key
-var authKey = '';
-if (typeof(Storage) !== "undefined") {
-	try {
-		authKey = localStorage.authKey;
-	}
-	catch (error) {
-		console.log(error);
-	}
-}
-else {
-	authKey = getCookie('authKey');
-}
+var authKey = getAuthenticationKey();
 if (authKey != null && authKey != '') {
 	// Hide key form
 	$("#keyForm").hide();
@@ -40,17 +29,7 @@ $('form').on('submit', function(e) {
 		// Check if fields are not empty
 		if (username.length != 0 && password.length != 0) {
 			authKey = getHash(username, password);
-			if (typeof(Storage) !== "undefined") {
-				try {
-					localStorage.authKey = authKey;
-				}
-				catch (error) {
-					console.log(error);
-				}
-			}
-			else {
-				setCookie('authKey', authKey);
-			}
+			setAuthenticationKey(authKey);
 		}
 		else {
 			sweetAlert("Ups...", "Bitte überprüfe, ob Du alle Felder ausgefüllt hast!", "error");

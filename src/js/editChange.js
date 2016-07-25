@@ -21,18 +21,7 @@ var id = getURLParameter('id');
 // The array containing the teachers names
 var teachers = {};
 // The authentication key
-var authKey = '';
-if (typeof(Storage) !== 'undefined') {
-	try {
-		authKey = localStorage.authKey;
-	}
-	catch (error) {
-		console.log(error);
-	}
-}
-else {
-	authKey = getCookie('authKey');
-}
+var authKey = getAuthenticationKey();
 if (authKey != null && authKey != '') {
 	getTeachers();
 }
@@ -69,17 +58,7 @@ $('form').on('submit', function(e) {
 	// Check if fields are not empty
 	if (username.length != 0 && password.length != 0) {
 		authKey = getHash(username, password);
-		if (typeof(Storage) !== 'undefined') {
-			try {
-				localStorage.authKey = authKey;
-			}
-			catch (error) {
-				console.log(error);
-			}
-		}
-		else {
-			setCookie('authKey', authKey);
-		}
+		setAuthenticationKey(authKey);
 	}
 	if ($('#changeForm').is(':hidden')) {
 		if (username.length != 0 && password.length != 0) {

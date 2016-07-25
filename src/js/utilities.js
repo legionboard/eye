@@ -20,6 +20,38 @@ $(document).ajaxStop(function() {
 });
 
 /*
+ * Authentication key
+ */
+function getAuthenticationKey() {
+	// Check whether local storage works
+	if (typeof(Storage) !== 'undefined') {
+		try {
+			return localStorage.authKey;
+		}
+		catch (error) {
+			console.log(error);
+		}
+	}
+	else {
+		return getCookie('authKey');
+	}
+}
+
+function setAuthenticationKey(authKey) {
+	if (typeof(Storage) !== 'undefined') {
+		try {
+			localStorage.authKey = authKey;
+		}
+		catch (error) {
+			console.log(error);
+		}
+	}
+	else {
+		setCookie('authKey', authKey);
+	}
+}
+
+/*
  * Cookies
  */
 
