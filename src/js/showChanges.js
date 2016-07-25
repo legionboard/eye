@@ -132,14 +132,7 @@ $('#changesForm').on('submit', function(e) {
 	}
 });
 
-$('.datepicker').datepicker({
-	format: "dd.mm.yyyy",
-	todayBtn: "linked",
-	language: "de",
-	daysOfWeekHighlighted: "1,2,3,4,5",
-	autoclose: true,
-	todayHighlight: true
-});
+initializeDatePicker();
 $('#startByPicker').datepicker('update', "0");
 $('#endByPicker').datepicker('update', "+7d");
 

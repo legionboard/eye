@@ -95,6 +95,16 @@ function getHash(username, password) {
 /*
  * Miscellaneous
  */
+function initializeDatePicker() {
+	$('.datepicker').datepicker({
+		format: "dd.mm.yyyy",
+		todayBtn: "linked",
+		language: "de",
+		daysOfWeekHighlighted: "1,2,3,4,5",
+		autoclose: true,
+		todayHighlight: true
+	});
+}
 
 function scrollTo(element) {
 	$('html, body').animate({ scrollTop: ($(element).offset().top) - 55}, 'slow');

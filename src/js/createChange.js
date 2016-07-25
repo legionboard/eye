@@ -26,13 +26,7 @@ $('input').keypress(function(event) {
     }
 });
 
-$('.datepicker').datepicker({
-	format: 'dd.mm.yyyy',
-	language: "de",
-	daysOfWeekHighlighted: '1,2,3,4,5',
-	autoclose: true,
-	todayHighlight: true
-});
+initializeDatePicker();
 
 $('form').on('submit', function(e) {
 	// Prevent default action
