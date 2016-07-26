@@ -6,6 +6,8 @@
  */
 // The array containing the teachers names
 var teachers = {};
+// The array containing the courses names
+var courses = {};
 // The authentication key
 var authKey = getAuthenticationKey();
 if (authKey != null && authKey != '') {
@@ -131,26 +133,63 @@ function getTeachers() {
 	.success(function(data) {
 		addTeachers(data);
 		drawTeachers();
+		getCourses();
+	})
+	.fail(function(jqXHR, textStatus, errorThrown) {
+		if (jqXHR.status == 404) {
+			// Having no teachers is fine as changes do not need to reference one
+			getCourses();
+		}
+		else {
+			console.log('Getting teachers failed.');
+			console.log(jqXHR);
+			if (jqXHR.status == 401) {
+				// Show authentication form
+				$("#authForm").show();
+				// Hide changes table
+				$("#changesTable").hide();
+				localStorage.removeItem("authKey");
+				deleteCookie('authKey');
+				authKey = null;
+				sweetAlert("Ups...", "Bitte überprüfe Deine Anmeldedaten.", "error");
+			}
+			else {
+				sweetAlert("Ups...", "Es gab einen Fehler. Bitte versuche es später erneut.", "error");
+			}
+		}
+	});
+}
+function getCourses() {
+	// Hide authentication form
+	$("#authForm").hide();
+	// Get courses
+	$.getJSON(appConfig['apiRoot'] + '/courses?k=' + authKey)
+	.success(function(data) {
+		addCourses(data);
+		drawCourses();
 		getChanges();
 	})
 	.fail(function(jqXHR, textStatus, errorThrown) {
-		console.log('Getting teachers failed.');
-		console.log(jqXHR);
-		if (jqXHR.status == 401) {
-			// Show authentication form
-			$("#authForm").show();
-			// Hide changes table
-			$("#changesTable").hide();
-			localStorage.removeItem("authKey");
-			deleteCookie('authKey');
-			authKey = null;
-			sweetAlert("Ups...", "Bitte überprüfe Deine Anmeldedaten.", "error");
-		}
-		else if (jqXHR.status == 404) {
-			sweetAlert("Ups...", "Es gibt keine Lehrer.", "error");
+		if (jqXHR.status == 404) {
+			// Having no courses is fine as changes do not need to reference one
+			getChanges();
 		}
 		else {
-			sweetAlert("Ups...", "Es gab einen Fehler. Bitte versuche es später erneut.", "error");
+			console.log('Getting courses failed.');
+			console.log(jqXHR);
+			if (jqXHR.status == 401) {
+				// Show authentication form
+				$("#authForm").show();
+				// Hide changes table
+				$("#changesTable").hide();
+				localStorage.removeItem("authKey");
+				deleteCookie('authKey');
+				authKey = null;
+				sweetAlert("Ups...", "Bitte überprüfe Deine Anmeldedaten.", "error");
+			}
+			else {
+				sweetAlert("Ups...", "Es gab einen Fehler. Bitte versuche es später erneut.", "error");
+			}
 		}
 	});
 }
@@ -242,6 +281,52 @@ function drawTeachers() {
 	}
 }
 
+// Courses IDs of archived ones
+var archivedCourses;
+function addCourses(data) {
+	archivedCourses = {};
+	for (var i = 0; i < data.length; i++) {
+		// Do not add if course is archived
+		if (data[i].archived == 'true') {
+			archivedCourses[data[i].id] = true;
+		}
+		addCourse(data[i]);
+	}
+}
+
+function addCourse(data) {
+	courses[data.id] = data.name;
+}
+
+function drawCourses() {
+	var sortable = [];
+	for (var key in courses) {
+		if (courses.hasOwnProperty(key)) {
+			sortable.push([key, courses[key]]);
+		}
+	}
+	sortable.sort(function(a, b) {
+		var x = a[1].toLowerCase();
+		var y = b[1].toLowerCase();
+		return x < y ? -1 : x > y ? 1 : 0;
+	});
+	for (var key in sortable) {
+		if (!archivedCourses[sortable[key][0]]) {
+			var courseId = sortable[key][0];
+			var courseName = sortable[key][1];
+			var row = '<li>' +
+						'<input id="courseCheck_' + courseId + '" name="courseCheck_" value="' + courseId + '" type="checkbox">' +
+						'<label for="courseCheck_' + courseId + '">' + courseName + '</label>' +
+						'</li>';
+			$("#courseDrop ul").append(row);
+		}
+	}
+}
+
+// Column "teacher" is empty
+var teacherIsEmpty;
+// Column "course" is empty
+var courseIsEmpty;
 // Column "text" is empty
 var textIsEmpty;
 // Column "covering teacher" is empty
@@ -283,6 +368,10 @@ function drawTable(data) {
 	// Find doubles (changes with same data except teacher/course)
 	for (var left = 0; left < data.length; left++) {
 		for (var right = left + 1; right < data.length; right++) {
+			// Don't mark as duplicate if teacher or course is empty
+			if (leftArray.teacher == '-' || rightArray.teacher == '-' || leftArray.course == '-' || rightArray.course == '-') {
+				continue;
+			}
 			// Temporary left array
 			var leftArray = data[left];
 			// Temporary right array
@@ -321,6 +410,8 @@ function drawTable(data) {
 			}
 		}
 	}
+	teacherIsEmpty = true;
+	courseIsEmpty = true;
 	textIsEmpty = true;
 	coveringTeacherIsEmpty = true;
 	for (var i = 0; i < data.length; i++) {
@@ -352,6 +443,16 @@ function drawTable(data) {
 	if (data[0].edited == '-') {
 		$(".tableEdited").hide();
 	}
+	// Show teacher only when it is not empty
+	$(".tableTeacher").show();
+	if (teacherIsEmpty) {
+		$(".tableTeacher").hide();
+	}
+	// Show course only when it is not empty
+	$(".tableCourse").show();
+	if (courseIsEmpty) {
+		$(".tableCourse").hide();
+	}
 	// Show covering teacher only when it is not empty
 	$(".tableCoveringTeacher").show();
 	if (coveringTeacherIsEmpty) {
@@ -371,15 +472,27 @@ function drawTable(data) {
 
 function drawRow(rowData, allData) {
 	var row = $("<tr />");
-	var teacher = teachers[rowData.teacher];
-	// Append other teachers with same data
-	if (rowData.id in doubles) {
-		doubles[rowData.id].split(',').forEach(function(entry) {
-			teacher += "; " + teachers[allData[entry].teacher];
-		});
+	var teacher = '-';
+	if (rowData.teacher != '0') {
+		teacherIsEmpty = false;
+		teacher = teachers[rowData.teacher];
+		// Append other teachers with same data
+		if (rowData.id in doubles) {
+			doubles[rowData.id].split(',').forEach(function(entry) {
+				teacher += "; " + teachers[allData[entry].teacher];
+			});
+		}
 	}
-	if (teacher == null) {
-		teacher = '-';
+	var course = '-';
+	if (rowData.course != '0') {
+		courseIsEmpty = false;
+		course = courses[rowData.course];
+		// Append other courses with same data
+		if (rowData.id in doubles) {
+			doubles[rowData.id].split(',').forEach(function(entry) {
+				course += "; " + courses[allData[entry].course];
+			});
+		}
 	}
 	var type = "Ausfall";
 	if (rowData.type == 1) {
@@ -446,6 +559,7 @@ function drawRow(rowData, allData) {
 	}
 	$("#changesTable tbody").append(row);
 	row.append($("<td data-label='Lehrer' class='tableTeacher'>" + teacher + "</td>"));
+	row.append($("<td data-label='Kurs' class='tableCourse'>" + course + "</td>"));
 	row.append($("<td data-label='Start'>" + startBy + "</td>"));
 	row.append($("<td data-label='Ende'>" + endBy + "</td>"));
 	row.append($("<td data-label='Stunden' class='tableHours'>" + hours + "</td>"));
