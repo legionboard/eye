@@ -156,12 +156,9 @@ function getTeachers() {
 }
 
 function getChanges(startBy, endBy, teacher) {
-	startBy = (startBy != null) ? startBy : getISODate(0);
-	endBy = (endBy != null) ? endBy : getISODate(7);
-	if (teacher != null && teacher[0] != null) {
-		teacher = teacher.join(',') + ',1';
-	}
-	else {
+	startBy = (startBy != null) ? startBy : 'now';
+	endBy = (endBy != null) ? endBy : 'i1w';
+	if (teacher != null && teacher[0] == null) {
 		teacher = null;
 	}
 	// Get changes
