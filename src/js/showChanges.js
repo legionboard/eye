@@ -95,17 +95,7 @@ $('#changesForm').on('submit', function(e) {
 		// Check if fields are not empty
 		if (username.length != 0 && password.length != 0) {
 			authKey = getHash(username, password);
-			if (typeof(Storage) !== "undefined") {
-				try {
-					localStorage.authKey = authKey;
-				}
-				catch (error) {
-					console.log(error);
-				}
-			}
-			else {
-				setCookie('authKey', authKey);
-			}
+			setAuthenticationKey(authKey);
 		}
 		if (startByIsNotEmpty && endByIsNotEmpty) {
 			startBy = formatToISO(startBy);
