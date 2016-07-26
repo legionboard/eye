@@ -229,16 +229,16 @@ function drawTeachers() {
 	});
 	teachers = sortable;
 	for (var key in teachers) {
+		var teacherId = teachers[key][0];
+		var teacherName = teachers[key][1];
 		var row = '<li>' +
-					'<input id="teacherCheck_' + teachers[key][0] + '" name="teacherCheck" value="' + teachers[key][0] + '" type="checkbox">' +
-					'<label for="teacherCheck_' + teachers[key][0] + '">' + teachers[key][1] + '</label>' +
+					'<input id="teacherCheck_' + teacherId + '" name="teacherCheck" value="' + teacherId + '" type="checkbox">' +
+					'<label for="teacherCheck_' + teacherId + '">' + teacherName + '</label>' +
 					'</li>';
 		$("#teacherDrop ul").append(row);
-	}
-	for (var key in teachers) {
-		var row = '<li>' +
-					'<input id="coveringTeacherCheck_' + teachers[key][0] + '" name="coveringTeacherCheck" value="' + teachers[key][0] + '" type="radio">' +
-					'<label for="coveringTeacherCheck_' + teachers[key][0] + '">' + teachers[key][1] + '</label>' +
+		row = '<li>' +
+					'<input id="coveringTeacherCheck_' + teacherId + '" name="coveringTeacherCheck" value="' + teacherId + '" type="radio">' +
+					'<label for="coveringTeacherCheck_' + teacherId + '">' + teacherName + '</label>' +
 					'</li>';
 		$("#coveringTeacherDrop ul").append(row);
 	}

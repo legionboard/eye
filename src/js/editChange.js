@@ -270,11 +270,7 @@ function drawTeachers() {
 					'<label for="teacherCheck_' + teacherId + '">' + teacherName + '</label>' +
 					'</li>';
 		$("#teacherDrop ul").append(row);
-	}
-	for (var key in teachers) {
-		var teacherId = teachers[key][0];
-		var teacherName = teachers[key][1];
-		var row = '<li>' +
+		row = '<li>' +
 					'<input id="coveringTeacherCheck_' + teacherId + '" name="coveringTeacherCheck" value="' + teacherId + '" type="radio">' +
 					'<label for="coveringTeacherCheck_' + teacherId + '">' + teacherName + '</label>' +
 					'</li>';

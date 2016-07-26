@@ -244,9 +244,11 @@ function drawTeachers() {
 	});
 	for (var key in sortable) {
 		if (!archivedTeachers[sortable[key][0]]) {
+			var teacherId = sortable[key][0];
+			var teacherName = sortable[key][1];
 			var row = '<li>' +
-						'<input id="teacherCheck_' + sortable[key][0] + '" name="teacherCheck" value="' + sortable[key][0] + '" type="checkbox">' +
-						'<label for="teacherCheck_' + sortable[key][0] + '">' + sortable[key][1] + '</label>' +
+						'<input id="teacherCheck_' + teacherId + '" name="teacherCheck" value="' + teacherId + '" type="checkbox">' +
+						'<label for="teacherCheck_' + teacherId + '">' + teacherName + '</label>' +
 						'</li>';
 			$("#teacherDrop ul").append(row);
 		}
