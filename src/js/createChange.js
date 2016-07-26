@@ -92,9 +92,8 @@ $('form').on('submit', function(e) {
 			if (endingHour.length == 1) {
 				endingHour = '0' + endingHour;
 			}
-			// Format to ISO 8601
-			startingDate = startingDate.substring(6, 10) + '-' + startingDate.substring(3, 5) + '-' + startingDate.substring(0, 2);
-			endingDate = endingDate.substring(6, 10) + '-' + endingDate.substring(3, 5) + '-' + endingDate.substring(0, 2);
+			startingDate = formatToISO(startingDate);
+			endingDate = formatToISO(endingDate);
 			if ((new Date(startingDate)) > (new Date(endingDate))) {
 				sweetAlert('Ups...', 'Der Start muss vor dem Ende sein.', 'error');
 			}

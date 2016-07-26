@@ -83,6 +83,53 @@ function deleteCookie(cname) {
 }
 
 /*
+ * Dates
+ */
+
+/**
+ * Format from dd.mm.yyyy to yyyy-mm-dd (ISO 8601)
+ */
+function formatToISO(date) {
+	return date.substring(6, 10) + '-' + date.substring(3, 5) + '-' + date.substring(0, 2);
+}
+
+/**
+ * Format from yyyy-mm-dd (ISO 8601) to dd.mm.yyyy
+ */
+function formatToLocal(date) {
+	return date.substring(8, 10) + "." + date.substring(5, 7) + "." + date.substring(2, 4);
+}
+
+/**
+ * Format from yyyy-mm-dd (ISO 8601) to dd.mm.yyyy (with leading zeros being deleted)
+ */
+function formatToShortLocal(date) {
+	date =
+		date.substring(8, 10).replace(/^0+/, '') +
+		"." +
+		date.substring(5, 7).replace(/^0+/, '') +
+		"." +
+		date.substring(2, 4);
+	return date;
+}
+
+/**
+ * Format from yyyy-mm-dd HH-MM-SS (ISO 8601) to dd.mm.yyyy HH-MM-SS
+ */
+function formatToFullLocal(date) {
+	return date.substring(8, 10) + "." + date.substring(5, 7) + "." + date.substring(0, 4) + " " + date.substring(11, 19);
+}
+
+/**
+ * Returns short form of weekday (Mo, Di, ..)
+ */
+function getWeekDay(date) {
+	date = new Date(date);
+	var days = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+	return days[date.getDay()];
+}
+
+/*
  * Hashing
  */
 

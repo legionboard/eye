@@ -108,9 +108,8 @@ $('#changesForm').on('submit', function(e) {
 			}
 		}
 		if (startByIsNotEmpty && endByIsNotEmpty) {
-			// Format to ISO 8601
-			startBy = startBy.substring(6, 10) + '-' + startBy.substring(3, 5) + '-' + startBy.substring(0, 2);
-			endBy = endBy.substring(6, 10) + '-' + endBy.substring(3, 5) + '-' + endBy.substring(0, 2);
+			startBy = formatToISO(startBy);
+			endBy = formatToISO(endBy);
 			if ((new Date(startBy)) > (new Date(endBy))) {
 				sweetAlert("Ups...", "Der Start muss vor dem Ende sein.", "error");
 			}
@@ -119,13 +118,11 @@ $('#changesForm').on('submit', function(e) {
 			}
 		}
 		else if (startByIsNotEmpty) {
-			// Format to ISO 8601
-			startBy = startBy.substring(6, 10) + '-' + startBy.substring(3, 5) + '-' + startBy.substring(0, 2);
+			startBy = formatToISO(startBy);
 			getChanges(startBy, null, teacher);
 		}
 		else if (endByIsNotEmpty) {
-			// Format to ISO 8601
-			endBy = endBy.substring(6, 10) + '-' + endBy.substring(3, 5) + '-' + endBy.substring(0, 2);
+			endBy = formatToISO(endBy);
 			getChanges(null, endBy, teacher);
 		}
 
@@ -384,7 +381,6 @@ function drawTable(data) {
 }
 
 function drawRow(rowData, allData) {
-	var days = ['So','Mo','Di','Mi','Do','Fr','Sa'];
 	var row = $("<tr />");
 	var teacher = teachers[rowData.teacher];
 	// Append other teachers with same data
@@ -444,42 +440,20 @@ function drawRow(rowData, allData) {
 		}
 	}
 	var startBy =
-		days[(new Date(rowData.startingDate)).getDay()] + ', ' +
-		rowData.startingDate.substring(8, 10).replace(/^0+/, '') +
-		"." +
-		rowData.startingDate.substring(5, 7).replace(/^0+/, '') +
-		"." +
-		rowData.startingDate.substring(2, 4);
+		getWeekDay(rowData.startingDate) + ', ' +
+		formatToShortLocal(rowData.startingDate);
 	var endBy =
-		days[(new Date(rowData.endingDate)).getDay()] + ', ' +
-		rowData.endingDate.substring(8, 10).replace(/^0+/, '') +
-		"." +
-		rowData.endingDate.substring(5, 7).replace(/^0+/, '') +
-		"." +
-		rowData.endingDate.substring(2, 4);
+		getWeekDay(rowData.endingDate) + ', ' +
+		formatToShortLocal(rowData.endingDate);
 	var added = '-';
 	// Only show added if change contains no doubles
 	if (rowData.added != '-' && !(rowData.id in doubles)) {
-		added =
-			rowData.added.substring(8, 10) +
-			"." +
-			rowData.added.substring(5, 7) +
-			"." +
-			rowData.added.substring(0, 4) +
-			" " +
-			rowData.added.substring(11, 19);
+		added = formatToFullLocal(rowData.added);
 	}
 	var edited = '-';
 	// Only show edited if change contains no doubles
 	if (rowData.edited != '-' && !(rowData.id in doubles)) {
-		edited =
-			rowData.edited.substring(8, 10) +
-			"." +
-			rowData.edited.substring(5, 7) +
-			"." +
-			rowData.edited.substring(0, 4) +
-			" " +
-			rowData.edited.substring(11, 19);
+		edited = formatToFullLocal(rowData.edited);
 	}
 	$("#changesTable tbody").append(row);
 	row.append($("<td data-label='Lehrer' class='tableTeacher'>" + teacher + "</td>"));

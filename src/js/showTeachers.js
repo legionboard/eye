@@ -108,22 +108,15 @@ function drawRow(rowData) {
 	else {
 		archived = '\u2717';
 	}
-	var added =
-		rowData.added.substring(8, 10) +
-		"." +
-		rowData.added.substring(5, 7) +
-		"." +
-		rowData.added.substring(0, 4) +
-		" " +
-		rowData.added.substring(11, 19);
-	var edited =
-		rowData.edited.substring(8, 10) +
-		"." +
-		rowData.edited.substring(5, 7) +
-		"." +
-		rowData.edited.substring(0, 4) +
-		" " +
-		rowData.edited.substring(11, 19);
+	// Only show added if change contains no doubles
+	if (rowData.added != '-') {
+		added = formatToFullLocal(rowData.added);
+	}
+	var edited = '-';
+	// Only show edited if change contains no doubles
+	if (rowData.edited != '-') {
+		edited = formatToFullLocal(rowData.edited);
+	}
 	$("#teachersTable tbody").append(row);
 	row.append($("<td data-label='Name' class='tableTeacher'>" + name + "</td>"));
 	row.append($("<td data-label='Archiviert'>" + archived + "</td>"));
