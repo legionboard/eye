@@ -12,7 +12,7 @@ if (getURLParameter('id') == null || getURLParameter('id') == '') {
 		closeOnCancel: false
 	},
 	function() {
-		window.location.href = 'index.html';
+		window.location.href = 'show.html';
 	});
 	throw new Error("The ID of the change is not given.");
 }
@@ -148,7 +148,7 @@ function editChange(teacher, startingDate, startingHour, endingDate, endingHour,
 			type: 'success'
 		},
 		function() {
-			window.location.href = 'index.html';
+			window.location.href = 'show.html';
 		});
 	})
 	.fail(function(jqXHR, textStatus, errorThrown) {

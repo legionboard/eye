@@ -12,7 +12,7 @@ if (getURLParameter('id') == null || getURLParameter('id') == '') {
 		closeOnCancel: false
 	},
 	function() {
-		window.location.href = 'showTeachers.html';
+		window.location.href = 'show.html';
 	});
 	throw new Error("The ID of the teacher is not given.");
 }
@@ -92,7 +92,7 @@ function editTeacher(name, archived) {
 			type: 'success'
 		},
 		function() {
-			window.location.href = 'showTeachers.html';
+			window.location.href = 'show.html';
 		});
 	})
 	.fail(function(jqXHR, textStatus, errorThrown) {
