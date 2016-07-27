@@ -4,8 +4,6 @@
  *
  * See the file "LICENSE" for the full license governing this code.
  */
-// The array containing the teachers names
-var teachers = {};
 // The authentication key
 var authKey = getAuthenticationKey();
 if (authKey != null && authKey.length != 0) {
@@ -38,7 +36,6 @@ function getTeachers() {
 	$("#divForm").hide();
 	$.getJSON(appConfig['apiRoot'] + '/teachers?k=' + authKey)
 	.success(function(data) {
-		addTeachers(data);
 		// Hide authentication form
 		$("#divForm").hide();
 		// Show teachers table
@@ -70,12 +67,6 @@ function getTeachers() {
 				sweetAlert("Ups...", "Es gab einen Fehler. Bitte versuche es später erneut.", "error");
 		}
 	});
-}
-
-function addTeachers(data) {
-	for (var i = 0; i < data.length; i++) {
-		teachers[data[i].id] = data[i].name;
-	}
 }
 
 function drawTable(data) {
@@ -122,12 +113,7 @@ function drawRow(rowData) {
 	row.append($("<td data-label='Archiviert'>" + archived + "</td>"));
 	row.append($("<td data-label='Erstellt'>" + added + "</td>"));
 	row.append($("<td data-label='Aktualisiert'>" + edited + "</td>"));
-	if (rowData.id != 1) {
-		row.append($("<td data-label='Aktion'><a href='javascript:void(0)' onclick='editTeacher(" + rowData.id + ");'>[B]</a> <a href='javascript:void(0)' onclick='deleteTeacher(" + rowData.id + ");'>[L]</a></td>"));
-	}
-	else {
-		row.append($("<td data-label='Aktion'>-</td>"));
-	}
+	row.append($("<td data-label='Aktion'><a href='javascript:void(0)' onclick='editTeacher(" + rowData.id + ");'>[B]</a> <a href='javascript:void(0)' onclick='deleteTeacher(" + rowData.id + ");'>[L]</a></td>"));
 
 }
 
