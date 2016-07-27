@@ -12,6 +12,10 @@ need to do is to download the source code, add your API to the
 [configuration](src/config/configuration-template.js) and open the site
 in a browser. Have fun and enjoy!
 
+This version of Eye requires version `0.2.0` or newer of
+[Heart](https://gitlab.com/legionboard/heart). 
+
+
 ## Dependencies
 
 * [Bootstrap](https://getbootstrap.com/)
