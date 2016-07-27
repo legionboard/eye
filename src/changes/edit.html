@@ -13,13 +13,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<meta name="author" content="Nico Alt">
 
-		<title>Änderung hinzufügen</title>
+		<title>Änderung bearbeiten</title>
 
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/bootstrap-datepicker3.min.css">
-		<link rel="stylesheet" href="css/dropdowns-enhancement.css">
-		<link rel="stylesheet" href="css/jumbotron.css">
-		<link rel="stylesheet" href="css/sweetalert.css">
+		<link rel="stylesheet" href="../css/bootstrap.min.css">
+		<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+		<link rel="stylesheet" href="../css/dropdowns-enhancement.css">
+		<link rel="stylesheet" href="../css/jumbotron.css">
+		<link rel="stylesheet" href="../css/sweetalert.css">
 	</head>
 
 	<body>
@@ -32,32 +32,32 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index.html"><div class="title"></div></a>
+					<a class="navbar-brand" href="../index.html"><div class="title"></div></a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 						<li class="dropdown active">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Änderungen</span></a>
 							<ul class="dropdown-menu">
-								<li><a href="index.html">Anzeigen</a></li>
-								<li><a href="createChange.html">Hinzufügen</a></li>
+								<li><a href="../changes/show.html">Anzeigen</a></li>
+								<li><a href="../changes/create.html">Hinzufügen</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kurse</span></a>
 							<ul class="dropdown-menu">
-								<li><a href="showCourses.html">Anzeigen</a></li>
-								<li><a href="createCourse.html">Hinzufügen</a></li>
+								<li><a href="../courses/show.html">Anzeigen</a></li>
+								<li><a href="../courses/create.html">Hinzufügen</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lehrer</span></a>
 							<ul class="dropdown-menu">
-								<li><a href="showTeachers.html">Anzeigen</a></li>
-								<li><a href="createTeacher.html">Hinzufügen</a></li>
+								<li><a href="../teachers/show.html">Anzeigen</a></li>
+								<li><a href="../teachers/create.html">Hinzufügen</a></li>
 							</ul>
 						</li>
-						<li><a href='index.html' onclick='logout();'>Logout</a></li>
+						<li><a href='../index.html' onclick='logout();'>Logout</a></li>
 					</ul>
 				</div>
 			</div>
@@ -82,26 +82,26 @@
 								<div class="col-md-4">
 									<div class="btn-group" data-toggle="buttons">
 										<label class="btn btn-default">
-											<input type="radio" id="type" name="type" value="0" /> Ausfall
+											<input type="radio" id="type_0" name="type" value="0" /> Ausfall
 										</label>
 										<label class="btn btn-default">
-											<input type="radio" id="type" name="type" value="1" /> Vertretung
+											<input type="radio" id="type_1" name="type" value="1" /> Vertretung
 										</label>
 										<label class="btn btn-default">
-											<input type="radio" id="type" name="type" value="2" /> Information
+											<input type="radio" id="type_2" name="type" value="2" /> Information
 										</label>
 									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="btn-group" data-toggle="buttons">
 										<label class="btn btn-default">
-											<input type="radio" id="reason" name="reason" value="0" /> Krank
+											<input type="radio" id="reason_0" name="reason" value="0" /> Krank
 										</label>
 										<label class="btn btn-default">
-											<input type="radio" id="reason" name="reason" value="1" /> Dienstlich
+											<input type="radio" id="reason_1" name="reason" value="1" /> Dienstlich
 										</label>
 										<label class="btn btn-default">
-											<input type="radio" id="reason" name="reason" value="2" /> Beurlaubt
+											<input type="radio" id="reason_2" name="reason" value="2" /> Beurlaubt
 										</label>
 									</div>
 								</div>
@@ -122,7 +122,7 @@
 							</div>
 							<div class="row form-group">
 								<div class="col-md-8">
-									<div class="input-group date datepicker" id="startingPicker">
+									<div class="input-group date datepicker">
 										<input type="text" id="startingDate" placeholder="Start *" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
 									</div>
 								</div>
@@ -132,7 +132,7 @@
 							</div>
 							<div class="row form-group">
 								<div class="col-md-8">
-									<div class="input-group date datepicker" id="endingPicker">
+									<div class="input-group date datepicker">
 										<input type="text" id="endingDate" placeholder="Ende *" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
 									</div>
 								</div>
@@ -164,15 +164,15 @@
 			</footer>
 		</div>
 
-		<script src="js/dependencies/jquery.min.js"></script>
-		<script src="js/dependencies/bootstrap.min.js"></script>
-		<script src="js/dependencies/dropdowns-enhancement.js"></script>
-		<script src="js/dependencies/bootstrap-datepicker.min.js"></script>
-		<script src="js/dependencies/bootstrap-datepicker.de.min.js"></script>
-		<script src="js/dependencies/sweetalert.min.js"></script>
-		<script src="js/dependencies/sha256.min.js"></script>
-		<script src="config/configuration.js"></script>
-		<script src="js/utilities.js"></script>
-		<script src="js/changes/create.js"></script>
+		<script src="../js/dependencies/jquery.min.js"></script>
+		<script src="../js/dependencies/bootstrap.min.js"></script>
+		<script src="../js/dependencies/dropdowns-enhancement.js"></script>
+		<script src="../js/dependencies/bootstrap-datepicker.min.js"></script>
+		<script src="../js/dependencies/bootstrap-datepicker.de.min.js"></script>
+		<script src="../js/dependencies/sweetalert.min.js"></script>
+		<script src="../js/dependencies/sha256.min.js"></script>
+		<script src="../config/configuration.js"></script>
+		<script src="../js/utilities.js"></script>
+		<script src="../js/changes/edit.js"></script>
 	</body>
 </html>

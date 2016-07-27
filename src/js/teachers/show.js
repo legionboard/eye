@@ -118,7 +118,7 @@ function drawRow(rowData) {
 }
 
 function editTeacher(id) {
-	window.location.href = 'editTeacher.html?id=' + id;
+	window.location.href = '../teachers/edit.html?id=' + id;
 }
 
 function deleteTeacher(id) {

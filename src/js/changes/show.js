@@ -574,7 +574,7 @@ function drawRow(rowData, allData) {
 }
 
 function editChange(id) {
-	window.location.href = 'editChange.html?id=' + id;
+	window.location.href = '../changes/edit.html?id=' + id;
 }
 
 function deleteChange(id) {

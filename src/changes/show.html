@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!--
+
+	@author	Nico Alt
+	@date	16.03.2016
+
+	See the file "LICENSE" for the full license governing this code.
+
+-->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="author" content="Nico Alt">
+
+		<link rel="stylesheet" href="../css/bootstrap.min.css">
+		<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+		<link rel="stylesheet" href="../css/dropdowns-enhancement.css">
+		<link rel="stylesheet" href="../css/jumbotron.css">
+		<link rel="stylesheet" href="../css/responsive-table.css">
+		<link rel="stylesheet" href="../css/sweetalert.css">
+	</head>
+
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="../index.html"><div class="title"></div></a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li class="dropdown active">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Änderungen</span></a>
+							<ul class="dropdown-menu">
+								<li><a href="../changes/show.html">Anzeigen</a></li>
+								<li><a href="../changes/create.html">Hinzufügen</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kurse</span></a>
+							<ul class="dropdown-menu">
+								<li><a href="../courses/show.html">Anzeigen</a></li>
+								<li><a href="../courses/create.html">Hinzufügen</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lehrer</span></a>
+							<ul class="dropdown-menu">
+								<li><a href="../teachers/show.html">Anzeigen</a></li>
+								<li><a href="../teachers/create.html">Hinzufügen</a></li>
+							</ul>
+						</li>
+						<li><a href='../index.html' onclick='logout();'>Logout</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="jumbotron">
+			<div class="container">
+				<table id="changesTable" class="responsiveTable" hidden>
+					<thead>
+						<tr>
+							<th class="tableTeacher">Lehrer</th>
+							<th class="tableCourse">Kurs</th>
+							<th>Start</th>
+							<th>Ende</th>
+							<th class="tableHours">Stunden</th>
+							<th>Typ</th>
+							<th class="tableText">Text</th>
+							<th class="tableCoveringTeacher">Vertretender Lehrer</th>
+							<th class="tableReason">Grund</th>
+							<th class="tablePrivateText">Privater Text</th>
+							<th class="expertViewOnly">Erstellt</th>
+							<th class="expertViewOnly">Aktualisiert</th>
+							<th class="expertViewOnly">Aktion</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="row" id="authForm">
+					<div class="col-md-6">
+						<p><b>Authentifizierung</b></p>
+						<form>
+							<div class="form-group">
+								<input type="text" id="username" placeholder="Name" class="form-control" autofocus/>
+							</div>
+							<div class="form-group">
+								<input type="password" id="password" placeholder="Passwort" class="form-control"/>
+							</div>
+							<input type="submit" class="btn btn-success"/>
+						</form>
+					</div>
+				</div>
+				<div class="loader" hidden></div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8">
+					<p>&copy; 2016 <a href="https://altnico.github.io">Nico Alt</a></p>
+					<p id="viewDefault" class="no-print"><a href="show.html?view=default">Standardansicht</a></p>
+					<p id="viewExpert" class="no-print" hidden><a href="show.html?view=expert">Expertenansicht</a></p>
+					<div class='versionParagraph' hidden>
+						<p><a href='https://legionboard.github.io/index.html#Eye' target='_blank'>LegionBoard Eye</a> Version <a class='version' href='https://gitlab.com/legionboard/eye/tags' target='_blank'></a></p>
+					</div>
+					<p class="no-print">Diese Seite wurde mit Hilfe von <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a> erstellt. Alle Angaben ohne Gewähr.</p>
+				</div>
+				<div class="col-md-4">
+					<form id="changesForm" hidden>
+						<div class="form-group">
+							<div class="input-group date datepicker" id="startByPicker">
+								<input type="text" id="startBy" placeholder="Start *" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group date datepicker" id="endByPicker">
+								<input type="text" id="endBy" placeholder="Ende *" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="btn-group" id="teacherDrop">
+								<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" data-placeholder="Lehrer">Lehrer <span class="caret"></span></button>
+								<ul class="dropdown-menu dropdown-scrollable"></ul>
+							</div>
+							<button type="submit" class="btn btn-success no-print pull-right">Aktualisieren</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<script src="../js/dependencies/jquery.min.js"></script>
+		<script src="../js/dependencies/bootstrap.min.js"></script>
+		<script src="../js/dependencies/dropdowns-enhancement.js"></script>
+		<script src="../js/dependencies/bootstrap-datepicker.min.js"></script>
+		<script src="../js/dependencies/bootstrap-datepicker.de.min.js"></script>
+		<script src="../js/dependencies/sweetalert.min.js"></script>
+		<script src="../js/dependencies/sha256.min.js"></script>
+		<script src="../config/configuration.js"></script>
+		<script src="../js/utilities.js"></script>
+		<script src="../js/changes/show.js"></script>
+	</body>
+</html>
