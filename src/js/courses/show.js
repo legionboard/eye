@@ -115,7 +115,7 @@ function drawRow(rowData) {
 	row.append($("<td data-label='Archiviert'>" + archived + "</td>"));
 	row.append($("<td data-label='Erstellt'>" + added + "</td>"));
 	row.append($("<td data-label='Aktualisiert'>" + edited + "</td>"));
-	row.append($("<td data-label='Aktion'><a href='javascript:void(0)' onclick='editCourse(" + rowData.id + ");'>[B]</a> <a href='javascript:void(0)' onclick='deleteTeacher(" + rowData.id + ");'>[L]</a></td>"));
+	row.append($("<td data-label='Aktion'><a href='javascript:void(0)' onclick='editCourse(" + rowData.id + ");'>[B]</a> <a href='javascript:void(0)' onclick='deleteCourse(" + rowData.id + ");'>[L]</a></td>"));
 }
 
 function editCourse(id) {
