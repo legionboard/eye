@@ -331,6 +331,8 @@ var courseIsEmpty;
 var textIsEmpty;
 // Column "covering teacher" is empty
 var coveringTeacherIsEmpty;
+// Column "private text" is empty
+var privateTextIsEmpty;
 // Array index numbers of double changes (changes with same data except teacher/course)
 var doubles;
 // Changes IDs that are shown within other changes
@@ -414,6 +416,7 @@ function drawTable(data) {
 	courseIsEmpty = true;
 	textIsEmpty = true;
 	coveringTeacherIsEmpty = true;
+	privateTextIsEmpty = true;
 	for (var i = 0; i < data.length; i++) {
 		if (!alreadyShown[data[i].id]) {
 			drawRow(data[i], data);
@@ -457,6 +460,11 @@ function drawTable(data) {
 	$(".tableCoveringTeacher").show();
 	if (coveringTeacherIsEmpty) {
 		$(".tableCoveringTeacher").hide();
+	}
+	// Show private text only when it is not empty
+	$(".tablePrivateText").show();
+	if (privateTextIsEmpty) {
+		$(".tablePrivateText").hide();
 	}
 	// Show text only when it is not empty
 	$(".tableText").show();
@@ -523,6 +531,7 @@ function drawRow(rowData, allData) {
 	}
 	var privateText = '-';
 	if (rowData.privateText != '-' && rowData.privateText != '') {
+		privateTextIsEmpty = false;
 		privateText = rowData.privateText;
 	}
 	// Hide hour if it's 00
