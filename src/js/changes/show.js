@@ -496,7 +496,7 @@ function drawRow(rowData, allData) {
 		}
 	}
 	var course = '-';
-	if (rowData.course != '0') {
+	if (rowData.course != '0' && rowData.course != null) {
 		courseIsEmpty = false;
 		course = courses[rowData.course];
 		// Append other courses with same data
