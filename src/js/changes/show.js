@@ -210,6 +210,8 @@ function getChanges(startBy, endBy, teacher, course) {
 	.success(function(data) {
 		// Hide authentication form
 		$("#authForm").hide();
+		// Hide 404 message
+		$("#404message").hide();
 		// Show changes table
 		$("#changesTable").show();
 		// Clear table
@@ -234,9 +236,13 @@ function getChanges(startBy, endBy, teacher, course) {
 			sweetAlert("Ups...", "Bitte überprüfe Deine Anmeldedaten.", "error");
 		}
 		else if (jqXHR.status == 404) {
+			// Hide changes table
+			$("#changesTable").hide();
 			// Show changes form
 			$("#changesForm").show();
-			sweetAlert("Ups...", "Für Deinen Filter gibt es keine Änderungen.", "error");
+			// Show 404 message
+			$("#404message").show();
+			scrollTo('.jumbotron');
 		}
 		else {
 			sweetAlert("Ups...", "Es gab einen Fehler. Bitte versuche es später erneut.", "error");

@@ -38,6 +38,8 @@ function getTeachers() {
 	.success(function(data) {
 		// Hide authentication form
 		$("#divForm").hide();
+		// Hide 404 message
+		$("#404message").hide();
 		// Show teachers table
 		$("#teachersTable").show();
 		// Clear table
@@ -61,7 +63,11 @@ function getTeachers() {
 				sweetAlert("Ups...", "Bitte überprüfe Deine Anmeldedaten.", "error");
 				break;
 			case 404:
-				sweetAlert("Ups...", "Es gibt keine Lehrer.", "error");
+				// Hide teachers table
+				$("#teachersTable").hide();
+				// Show 404 message
+				$("#404message").show();
+				scrollTo('.jumbotron');
 				break;
 			default:
 				sweetAlert("Ups...", "Es gab einen Fehler. Bitte versuche es später erneut.", "error");
