@@ -337,6 +337,8 @@ var privateTextIsEmpty;
 var doubles;
 // Changes IDs that are shown within other changes
 var alreadyShown;
+// If Heart uses an old MySQL version, edited is not working
+var editedIsWorking;
 
 function drawTable(data) {
 	// Sort alphabetically by teacher name
@@ -417,6 +419,7 @@ function drawTable(data) {
 	textIsEmpty = true;
 	coveringTeacherIsEmpty = true;
 	privateTextIsEmpty = true;
+	editedIsWorking = false;
 	for (var i = 0; i < data.length; i++) {
 		if (!alreadyShown[data[i].id]) {
 			drawRow(data[i], data);
@@ -443,7 +446,8 @@ function drawTable(data) {
 		$(".tableAdded").hide();
 	}
 	// Show edited only when available
-	if (data[0].edited == '-') {
+	$(".tableEdited").show();
+	if (data[0].edited == '-' || !editedIsWorking) {
 		$(".tableEdited").hide();
 	}
 	// Show teacher only when it is not empty
@@ -563,7 +567,8 @@ function drawRow(rowData, allData) {
 	}
 	var edited = '-';
 	// Only show edited if change contains no doubles
-	if (rowData.edited != '-' && !(rowData.id in doubles)) {
+	if (rowData.edited != '-' && !(rowData.id in doubles) && rowData.edited != "0000-00-00 00:00:00") {
+		editedIsWorking = true;
 		edited = formatToFullLocal(rowData.edited);
 	}
 	$("#changesTable tbody").append(row);
