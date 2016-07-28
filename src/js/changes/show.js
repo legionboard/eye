@@ -368,14 +368,14 @@ function drawTable(data) {
 	// Find doubles (changes with same data except teacher/course)
 	for (var left = 0; left < data.length; left++) {
 		for (var right = left + 1; right < data.length; right++) {
-			// Don't mark as duplicate if teacher or course is empty
-			if (leftArray.teacher == '-' || rightArray.teacher == '-' || leftArray.course == '-' || rightArray.course == '-') {
-				continue;
-			}
 			// Temporary left array
 			var leftArray = data[left];
 			// Temporary right array
 			var rightArray = data[right];
+			// Don't mark as duplicate if teacher or course is empty
+			if (leftArray.teacher == '-' || rightArray.teacher == '-' || leftArray.course == '-' || rightArray.course == '-') {
+				continue;
+			}
 			// Data on left side
 			var leftData =
 				leftArray.startingDate +
