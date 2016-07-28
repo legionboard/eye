@@ -80,8 +80,13 @@ $('#changesForm').on('submit', function(e) {
 	var endBy = $('#endBy').val().trim();
 	// Get teacher
 	var teacher = [];
-	$(':checkbox:checked').each(function(i) {
+	$('#teacherDrop input:checked').each(function(i) {
 		teacher[i] = $(this).val();
+	});
+	// Get course
+	var course = [];
+	$('#courseDrop input:checked').each(function(i) {
+		course[i] = $(this).val();
 	});
 	if (startBy != null && startBy.length != 0) {
 		var startByIsNotEmpty = true;
@@ -106,16 +111,16 @@ $('#changesForm').on('submit', function(e) {
 				sweetAlert("Ups...", "Der Start muss vor dem Ende sein.", "error");
 			}
 			else {
-				getChanges(startBy, endBy, teacher);
+				getChanges(startBy, endBy, teacher, course);
 			}
 		}
 		else if (startByIsNotEmpty) {
 			startBy = formatToISO(startBy);
-			getChanges(startBy, null, teacher);
+			getChanges(startBy, null, teacher, course);
 		}
 		else if (endByIsNotEmpty) {
 			endBy = formatToISO(endBy);
-			getChanges(null, endBy, teacher);
+			getChanges(null, endBy, teacher, course);
 		}
 
 	}
@@ -194,14 +199,14 @@ function getCourses() {
 	});
 }
 
-function getChanges(startBy, endBy, teacher) {
+function getChanges(startBy, endBy, teacher, course) {
 	startBy = (startBy != null) ? startBy : 'now';
 	endBy = (endBy != null) ? endBy : 'i1w';
 	if (teacher != null && teacher[0] == null) {
 		teacher = null;
 	}
 	// Get changes
-	$.getJSON(appConfig['apiRoot'] + '/changes?k=' + authKey + '&startBy=' + startBy + '&endBy=' + endBy + ((teacher != null) ? ('&teachers=' + teacher) : ''))
+	$.getJSON(appConfig['apiRoot'] + '/changes?k=' + authKey + '&startBy=' + startBy + '&endBy=' + endBy + ((teacher != null) ? ('&teachers=' + teacher) : '') + ((course != null) ? ('&courses=' + course) : ''))
 	.success(function(data) {
 		// Hide authentication form
 		$("#authForm").hide();
