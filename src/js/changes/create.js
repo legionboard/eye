@@ -4,12 +4,14 @@
  *
  * See the file "LICENSE" for the full license governing this code.
  */
+// The array containing the courses names
+var courses = {};
 // The array containing the teachers names
 var teachers = {};
 // The authentication key
 var authKey = getAuthenticationKey();
 if (authKey != null && authKey != '') {
-	getTeachers();
+	getResources();
 }
 else {
 	// Show key form
@@ -42,7 +44,7 @@ $('form').on('submit', function(e) {
 	}
 	if ($('#changeForm').is(':hidden')) {
 		if (username.length != 0 && password.length != 0) {
-			getTeachers();
+			getResources();
 		}
 		else {
 			// Show key form
@@ -56,9 +58,11 @@ $('form').on('submit', function(e) {
 		var type = $('input[name="type"]:checked').val();
 		// Get teacher
 		var teacher = [];
-		$(':checkbox:checked').each(function(i) {
+		$('#teacherDrop input:checked').each(function(i) {
 			teacher[i] = $(this).val();
 		});
+		// Get course
+		var course = $('input[name="courseCheck"]:checked').val();
 		// Get covering teacher
 		var coveringTeacher = $('input[name="coveringTeacherCheck"]:checked').val();
 		// Get starting date
@@ -99,21 +103,22 @@ $('form').on('submit', function(e) {
 			}
 			else {
 				if (teacher.length == 0) {
-					createChange(null, startingDate, startingHour, endingDate, endingHour, coveringTeacher, type, text, reason, privateText);
+					createChange(null, course, startingDate, startingHour, endingDate, endingHour, coveringTeacher, type, text, reason, privateText);
 				}
 				for(var i = 0; i < teacher.length; i++) {
-					createChange(teacher[i], startingDate, startingHour, endingDate, endingHour, coveringTeacher, type, text, reason, privateText);
+					createChange(teacher[i], course, startingDate, startingHour, endingDate, endingHour, coveringTeacher, type, text, reason, privateText);
 				}
 			}
 		}
 	}
 });
 
-function createChange(teacher, startingDate, startingHour, endingDate, endingHour, coveringTeacher, type, text, reason, privateText) {
+function createChange(teacher, course, startingDate, startingHour, endingDate, endingHour, coveringTeacher, type, text, reason, privateText) {
 	$.post(appConfig['apiRoot'] + '/changes',
 	{
 		k: authKey,
 		teacher: teacher,
+		course: course,
 		startingDate: startingDate,
 		startingHour: startingHour,
 		endingDate: endingDate,
@@ -163,6 +168,53 @@ function createChange(teacher, startingDate, startingHour, endingDate, endingHou
 	});
 }
 
+function getResources() {
+	getCourses();
+	getTeachers();
+}
+
+function getCourses() {
+	// Hide form
+	$('form').hide();
+	// Get courses
+	$.getJSON(appConfig['apiRoot'] + '/courses?k=' + authKey)
+	.done(function() {
+		// Show form
+		$('form').show();
+	})
+	.success(function(data) {
+		addCourses(data);
+		// Hide key form
+		$("#keyForm").hide();
+		// Show changes form
+		$("#changeForm").show();
+		scrollTo("#changeForm");
+		drawCourses();
+	})
+	.fail(function(jqXHR, textStatus, errorThrown) {
+		console.log('Getting courses failed.');
+		console.log(jqXHR);
+		switch (jqXHR.status) {
+			case 401:
+				// Show key form
+				$("#keyForm").show();
+				scrollTo("#keyForm");
+				// Hide changes form
+				$("#changeForm").hide();
+				localStorage.removeItem("authKey");
+				deleteCookie('authKey');
+				authKey = null;
+				sweetAlert("Ups...", "Bitte überprüfe Deine Anmeldedaten.", "error");
+				break;
+			case 404:
+				$("#courseDiv").hide();
+				break;
+			default:
+				sweetAlert("Ups...", "Es gab einen Fehler. Bitte versuche es später erneut.", "error");
+		}
+	});
+}
+
 function getTeachers() {
 	// Hide form
 	$('form').hide();
@@ -197,12 +249,46 @@ function getTeachers() {
 				sweetAlert("Ups...", "Bitte überprüfe Deine Anmeldedaten.", "error");
 				break;
 			case 404:
-				sweetAlert("Ups...", "Es gibt keine Lehrer.", "error");
+				$("#teacherDiv").hide();
 				break;
 			default:
 				sweetAlert("Ups...", "Es gab einen Fehler. Bitte versuche es später erneut.", "error");
 		}
 	});
+}
+
+function addCourses(data) {
+	for (var i = 0; i < data.length; i++) {
+		// Do not add if course is archived
+		if (data[i].archived == 'true') {
+			continue;
+		}
+		courses[data[i].id] = data[i].name;
+	}
+}
+
+function drawCourses() {
+	var sortable=[];
+	for (var key in courses) {
+		if (courses.hasOwnProperty(key)) {
+			sortable.push([key, courses[key]]);
+		}
+	}
+	sortable.sort(function(a, b) {
+		var x = a[1].toLowerCase();
+		var y = b[1].toLowerCase();
+		return x < y ? -1 : x > y ? 1 : 0;
+	});
+	courses = sortable;
+	for (var key in courses) {
+		var courseId = courses[key][0];
+		var courseName = courses[key][1];
+		var row = '<li>' +
+					'<input id="courseCheck_' + courseId + '" name="courseCheck" value="' + courseId + '" type="radio">' +
+					'<label for="courseCheck_' + courseId + '">' + courseName + '</label>' +
+					'</li>';
+		$("#courseDrop ul").append(row);
+	}
 }
 
 function addTeachers(data) {
