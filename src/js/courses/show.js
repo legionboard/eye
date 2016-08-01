@@ -107,6 +107,7 @@ function drawRow(rowData) {
 	else {
 		archived = '\u2717';
 	}
+	var added = '-';
 	// Only show added if change contains no doubles
 	if (rowData.added != '-') {
 		added = formatToFullLocal(rowData.added);
