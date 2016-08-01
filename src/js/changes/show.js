@@ -582,6 +582,12 @@ function drawRow(rowData, allData) {
 		editedIsWorking = true;
 		edited = formatToFullLocal(rowData.edited);
 	}
+	var ids = rowData.id;
+	if (rowData.id in doubles) {
+		doubles[rowData.id].split(',').forEach(function(entry) {
+			ids += "," + allData[entry].id;
+		});
+	}
 	$("#changesTable tbody").append(row);
 	row.append($("<td data-label='Lehrer' class='tableTeacher'>" + teacher + "</td>"));
 	row.append($("<td data-label='Kurs' class='tableCourse'>" + course + "</td>"));
@@ -595,17 +601,26 @@ function drawRow(rowData, allData) {
 	row.append($("<td data-label='Privater Text' class='tablePrivateText'>" + privateText + "</td>"));
 	row.append($("<td data-label='Erstellt' class='expertViewOnly tableAdded'>" + added + "</td>"));
 	row.append($("<td data-label='Aktualisiert' class='expertViewOnly tableEdited'>" + edited + "</td>"));
-	row.append($("<td data-label='Aktion' class='expertViewOnly'><a href='javascript:void(0)' onclick='editChange(" + rowData.id + ");'><img alt='Edit' src='../images/circle-edit.png'></a> <a href='javascript:void(0)' onclick='deleteChange(" + rowData.id + ");'><img alt='Delete' src='../images/circle-delete.png'></a></td>"));
+	var actionRow = "<td data-label='Aktion' class='expertViewOnly'>" +
+						// Hide edit if change contain doubles
+						"<a href='javascript:void(0)' onclick='editChange(" + rowData.id + ");'" + ((rowData.id in doubles) ? "hidden" : "") + ">" +
+							"<img alt='Edit' src='../images/circle-edit.png'>" +
+						"</a>" +
+						"<a href='javascript:void(0)' onclick='deleteChanges(\"" + ids + "\");'>" +
+							"<img alt='Delete' src='../images/circle-delete.png'>" +
+						"</a>" +
+					"</td>";
+	row.append($(actionRow));
 }
 
 function editChange(id) {
 	window.location.href = '../changes/edit.html?id=' + id;
 }
 
-function deleteChange(id) {
+function deleteChanges(ids) {
 	sweetAlert({
 		title: "Bist Du Dir sicher?",
-		text: 'Willst Du diese Änderung wirklich löschen?',
+		text: 'Willst Du diese Änderungen wirklich löschen?',
 		type: "warning",
 		showCancelButton: true,
 		confirmButtonColor: "#DD6B55",
@@ -613,14 +628,24 @@ function deleteChange(id) {
 		closeOnConfirm: false
 	},
 	function() {
-		$.ajax({
-			url: appConfig['apiRoot'] + '/changes/' + id + '?k=' + authKey,
-			type: 'DELETE'
-		})
-		.success(function(data, textStatus, xhr) {
+		ids = ids.split(',');
+		// Array of from requests returned deferred objects
+		var deferreds = [];
+		// For each ID
+		$.each(ids, function(index, id){
+			deferreds.push(
+				// Request DELETE of ID
+				$.ajax({
+					url: appConfig['apiRoot'] + '/changes/' + id + '?k=' + authKey,
+					type: 'DELETE',
+					async: false
+				})
+			);
+		});
+		$.when.apply($, deferreds).then(function(){
 			sweetAlert({
 				title: "Gelöscht!",
-				text: "Die Änderung wurde gelöscht.",
+				text: "Die Änderungen wurden erfolgreich gelöscht.",
 				type: "success"
 			},
 			function() {
@@ -628,7 +653,7 @@ function deleteChange(id) {
 			});
 		})
 		.fail(function(jqXHR, textStatus, errorThrown) {
-			console.log('Deleting change failed.');
+			console.log('Deleting changes failed.');
 			console.log(jqXHR);
 			switch (jqXHR.status) {
 				case 401:
