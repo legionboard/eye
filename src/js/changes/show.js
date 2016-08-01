@@ -595,7 +595,7 @@ function drawRow(rowData, allData) {
 	row.append($("<td data-label='Privater Text' class='tablePrivateText'>" + privateText + "</td>"));
 	row.append($("<td data-label='Erstellt' class='expertViewOnly tableAdded'>" + added + "</td>"));
 	row.append($("<td data-label='Aktualisiert' class='expertViewOnly tableEdited'>" + edited + "</td>"));
-	row.append($("<td data-label='Aktion' class='expertViewOnly'><a href='javascript:void(0)' onclick='editChange(" + rowData.id + ");'>[B]</a> <a href='javascript:void(0)' onclick='deleteChange(" + rowData.id + ");'>[L]</a></td>"));
+	row.append($("<td data-label='Aktion' class='expertViewOnly'><a href='javascript:void(0)' onclick='editChange(" + rowData.id + ");'><img alt='Edit' src='../images/circle-edit.png'></a> <a href='javascript:void(0)' onclick='deleteChange(" + rowData.id + ");'><img alt='Delete' src='../images/circle-delete.png'></a></td>"));
 }
 
 function editChange(id) {
