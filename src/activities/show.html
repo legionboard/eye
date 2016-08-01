@@ -2,7 +2,7 @@
 <!--
 
 	@author	Nico Alt
-	@date	27.07.2016
+	@date	01.08.2016
 
 	See the file "LICENSE" for the full license governing this code.
 
@@ -13,10 +13,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<meta name="author" content="Nico Alt">
 
-		<title>Kurs bearbeiten</title>
+		<title>Aktivitäten anzeigen</title>
 
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
 		<link rel="stylesheet" href="../css/jumbotron.css">
+		<link rel="stylesheet" href="../css/responsive-table.css">
 		<link rel="stylesheet" href="../css/sweetalert.css">
 	</head>
 
@@ -41,7 +42,7 @@
 								<li><a href="../changes/create.html">Hinzufügen</a></li>
 							</ul>
 						</li>
-						<li class="dropdown active">
+						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kurse <span class="caret"></span></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="../courses/show.html">Anzeigen</a></li>
@@ -55,7 +56,7 @@
 								<li><a href="../teachers/create.html">Hinzufügen</a></li>
 							</ul>
 						</li>
-						<li class="dropdown">
+						<li class="dropdown active">
 							<a href="../activities/show.html">Aktivitäten</a>
 						</li>
 						<li><a href='../index.html' onclick='logout();'>Logout</a></li>
@@ -66,30 +67,35 @@
 
 		<div class="jumbotron">
 			<div class="container">
-				<form>
-					<div class="row">
-						<div class="col-md-6" id="keyForm">
-							<p><b>Authentifizierung</b></p>
+				<table id="coursesTable"class="responsiveTable" hidden>
+					<thead>
+						<tr>
+							<th>Benutzer</th>
+							<th>Aktion</th>
+							<th>Ressource</th>
+							<th>Objekt</th>
+							<th>Zeit</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="row" id="authenticationForm">
+					<div class="col-md-6">
+						<p><b>Authentifizierung</b></p>
+						<form>
 							<div class="form-group">
 								<input type="text" id="username" placeholder="Name" class="form-control" autofocus/>
 							</div>
 							<div class="form-group">
 								<input type="password" id="password" placeholder="Passwort" class="form-control"/>
 							</div>
-						</div>
-						<div class="col-md-6" id="courseField" hidden>
-							<p><b>Kurs</b></p>
-							<div class="form-group">
-								<input type="text" id="name" placeholder="Name" class="form-control"/>
-							</div>
-							<div class="checkbox">
-								<label><input type="checkbox" id="archived">Archiviert</label>
-							</div>
-						</div>
+							<input type="submit" class="btn btn-success"/>
+						</form>
 					</div>
-					<input type="submit" class="btn btn-success"/>
-				</form>
+				</div>
 				<div class="loader" hidden></div>
+				<div id="404message" hidden>
+					<p>Scheinbar gibt es keine Aktivitäten.</p>
+				</div>
 			</div>
 		</div>
 
@@ -109,6 +115,6 @@
 		<script src="../js/dependencies/sha256.min.js"></script>
 		<script src="../config/configuration.js"></script>
 		<script src="../js/utilities.js"></script>
-		<script src="../js/courses/edit.js"></script>
+		<script src="../js/activities/show.js"></script>
 	</body>
 </html>
