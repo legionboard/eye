@@ -102,37 +102,61 @@ $('form').on('submit', function(e) {
 				sweetAlert('Ups...', 'Der Start muss vor dem Ende sein.', 'error');
 			}
 			else {
-				if (teacher.length == 0) {
-					createChange(null, course, startingDate, startingHour, endingDate, endingHour, coveringTeacher, type, text, reason, privateText);
-				}
-				for(var i = 0; i < teacher.length; i++) {
-					createChange(teacher[i], course, startingDate, startingHour, endingDate, endingHour, coveringTeacher, type, text, reason, privateText);
-				}
+				createChanges(teacher, course, startingDate, startingHour, endingDate, endingHour, coveringTeacher, type, text, reason, privateText);
 			}
 		}
 	}
 });
 
-function createChange(teacher, course, startingDate, startingHour, endingDate, endingHour, coveringTeacher, type, text, reason, privateText) {
-	$.post(appConfig['apiRoot'] + '/changes',
-	{
-		k: authKey,
-		teacher: teacher,
-		course: course,
-		startingDate: startingDate,
-		startingHour: startingHour,
-		endingDate: endingDate,
-		endingHour: endingHour,
-		coveringTeacher: coveringTeacher,
-		type: type,
-		text: text,
-		reason: reason,
-		privateText: privateText
-	})
-	.success(function(data) {
+function createChanges(teacher, course, startingDate, startingHour, endingDate, endingHour, coveringTeacher, type, text, reason, privateText) {
+	// Array of from requests returned deferred objects
+	var deferreds = [];
+	if (teacher.length != 0) {
+		$.each(teacher, function(index, id){
+			$.ajaxSetup({
+				async: false
+			});
+			deferreds.push(
+				$.post(appConfig['apiRoot'] + '/changes',
+					{
+						k: authKey,
+						teacher: id,
+						course: course,
+						startingDate: startingDate,
+						startingHour: startingHour,
+						endingDate: endingDate,
+						endingHour: endingHour,
+						coveringTeacher: coveringTeacher,
+						type: type,
+						text: text,
+						reason: reason,
+						privateText: privateText
+					})
+			);
+		});
+	}
+	else {
+		deferreds.push(
+			$.post(appConfig['apiRoot'] + '/changes',
+				{
+					k: authKey,
+					course: course,
+					startingDate: startingDate,
+					startingHour: startingHour,
+					endingDate: endingDate,
+					endingHour: endingHour,
+					coveringTeacher: coveringTeacher,
+					type: type,
+					text: text,
+					reason: reason,
+					privateText: privateText
+				})
+		);
+	}
+	$.when.apply($, deferreds).then(function(){
 		sweetAlert({
 			title: 'Hinzugefügt!',
-			text: 'Die Änderung wurde erfolgreich hinzugefügt.',
+			text: 'Die Änderungen wurden erfolgreich hinzugefügt.',
 			type: 'success'
 		},
 		function() {
@@ -147,7 +171,7 @@ function createChange(teacher, course, startingDate, startingHour, endingDate, e
 		});
 	})
 	.fail(function(jqXHR, textStatus, errorThrown) {
-		console.log('Creating change failed.');
+		console.log('Creating changes failed.');
 		console.log(jqXHR);
 		switch (jqXHR.status) {
 			case 401:
