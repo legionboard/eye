@@ -393,6 +393,7 @@ function drawTable(data) {
 			}
 			// Data on left side
 			var leftData =
+				leftArray.course +
 				leftArray.startingDate +
 				leftArray.startingHour +
 				leftArray.endingDate +
@@ -404,6 +405,7 @@ function drawTable(data) {
 				leftArray.privateText;
 			// Data on right side
 			var rightData =
+				rightArray.course +
 				rightArray.startingDate +
 				rightArray.startingHour +
 				rightArray.endingDate +
@@ -510,12 +512,6 @@ function drawRow(rowData, allData) {
 	if (rowData.course != '0' && rowData.course != null) {
 		courseIsEmpty = false;
 		course = courses[rowData.course];
-		// Append other courses with same data
-		if (rowData.id in doubles) {
-			doubles[rowData.id].split(',').forEach(function(entry) {
-				course += "; " + courses[allData[entry].course];
-			});
-		}
 	}
 	var type = "Ausfall";
 	if (rowData.type == 1) {
