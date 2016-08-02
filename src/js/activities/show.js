@@ -6,7 +6,7 @@
  */
 // The authentication key
 var authKey = getAuthenticationKey();
-if (authKey != null && authKey.length !== 0) {
+if (authKey !== undefined && authKey.length !== 0) {
 	getActivities();
 }
 $('form').on('submit', function(e) {
