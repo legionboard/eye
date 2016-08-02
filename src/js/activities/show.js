@@ -6,7 +6,7 @@
  */
 // The authentication key
 var authKey = getAuthenticationKey();
-if (authKey != null && authKey.length != 0) {
+if (authKey != null && authKey.length !== 0) {
 	getActivities();
 }
 $('form').on('submit', function(e) {
@@ -17,7 +17,7 @@ $('form').on('submit', function(e) {
 	// Get password
 	var password = $('#password').val().trim();
 	// Check if fields are not empty
-	if (username.length != 0 && password.length != 0) {
+	if (username.length !== 0 && password.length !== 0) {
 		authKey = getHash(username, password);
 		setAuthenticationKey(authKey);
 		getActivities();
@@ -84,41 +84,36 @@ function drawTable(data) {
 
 function drawRow(rowData) {
 	var row = $("<tr />");
-	var user = rowData.user;
-	var action = rowData.action;
+	row.append($("<td data-label='Benutzer'>" + rowData.user + "</td>"));
+	row.append($("<td data-label='Aktion'>" + formatAction(rowData.action) + "</td>"));
+	row.append($("<td data-label='Ressource'>" + formatAffectedResource(rowData.affectedResource) + "</td>"));
+	row.append($("<td data-label='Objekt'>" + rowData.affectedID + "</td>"));
+	row.append($("<td data-label='Zeit'>" + formatToFullLocal(rowData.time) + "</td>"));
+	$("table tbody").append(row);
+}
+
+function formatAction(action) {
 	switch(action) {
 		case '0':
-			action = 'Hinzufügung';
-			break;
+			return 'Hinzufügung';
 		case '1':
-			action = 'Aktualisierung';
-			break;
+			return 'Aktualisierung';
 		case '2':
-			action = 'Löschung';
-			break;
+			return 'Löschung';
 		default:
-			action = 'Unbekannt';
+			return 'Unbekannt';
 	}
-	var resource = rowData.affectedResource;
-	switch(resource) {
+}
+
+function formatAffectedResource(affectedResource) {
+	switch(affectedResource) {
 		case 'changes':
-			resource = 'Änderungen';
-			break;
+			return 'Änderungen';
 		case 'courses':
-			resource = 'Kurse';
-			break;
+			return 'Kurse';
 		case 'teachers':
-			resource = 'Lehrer';
-			break;
+			return 'Lehrer';
 		default:
-			resource = 'Unbekannt';
+			return 'Unbekannt';
 	}
-	var object = rowData.affectedID;
-	var time = formatToFullLocal(rowData.time);
-	$("table tbody").append(row);
-	row.append($("<td data-label='Benutzer'>" + user + "</td>"));
-	row.append($("<td data-label='Aktion'>" + action + "</td>"));
-	row.append($("<td data-label='Ressource'>" + resource + "</td>"));
-	row.append($("<td data-label='Objekt'>" + object + "</td>"));
-	row.append($("<td data-label='Zeit'>" + time + "</td>"));
 }
