@@ -308,6 +308,8 @@ function drawCourses() {
 var teacherIsEmpty;
 // Column "course" is empty
 var courseIsEmpty;
+// Column "hour" is empty
+var hourIsEmpty;
 // Column "text" is empty
 var textIsEmpty;
 // Column "covering teacher" is empty
@@ -399,6 +401,7 @@ function drawTable(data) {
 	}
 	teacherIsEmpty = true;
 	courseIsEmpty = true;
+	hourIsEmpty = true;
 	textIsEmpty = true;
 	coveringTeacherIsEmpty = true;
 	privateTextIsEmpty = true;
@@ -420,10 +423,6 @@ function drawTable(data) {
 	if (data[0].privateText == '-') {
 		$(".tablePrivateText").hide();
 	}
-	// Show hours only when available
-	if (data[0].startingHour == '-' || data[0].endingHour == '-') {
-		$(".tableHours").hide();
-	}
 	// Show added only when available
 	if (data[0].added == '-') {
 		$(".tableAdded").hide();
@@ -442,6 +441,11 @@ function drawTable(data) {
 	$(".tableCourse").show();
 	if (courseIsEmpty) {
 		$(".tableCourse").hide();
+	}
+	// Show hours only when they are not empty
+	$(".tableHours").show();
+	if (hourIsEmpty) {
+		$(".tableHours").hide();
 	}
 	// Show covering teacher only when it is not empty
 	$(".tableCoveringTeacher").show();
@@ -521,6 +525,7 @@ function drawRow(rowData, allData) {
 	var endingHour = rowData.endingHour;
 	var hours = '-';
 	if (startingHour != '' || endingHour != '') {
+		hourIsEmpty = false;
 		if (startingHour != '' && endingHour == '') {
 			hours = 'Ab ' + startingHour.replace(/^0+/, '') + '. Std.';
 		}
