@@ -4,37 +4,12 @@
  *
  * See the file "LICENSE" for the full license governing this code.
  */
-// The authentication key
-var authKey = getAuthenticationKey();
-if (authKey !== undefined && authKey.length !== 0) {
-	getActivities();
-}
-$('form').on('submit', function(e) {
-	// Prevent default action
-	e.preventDefault();
-	// Get username
-	var username = $('#username').val().trim().toLowerCase();
-	// Get password
-	var password = $('#password').val().trim();
-	// Check if fields are not empty
-	if (username.length !== 0 && password.length !== 0) {
-		authKey = getHash(username, password);
-		setAuthenticationKey(authKey);
-		getActivities();
-	}
-	else {
-		// Show authentication form
-		$("#authenticationForm").show();
-		// Hide table
-		$("table").hide();
-		sweetAlert("Ups...", "Bitte überprüfe, ob Du alle Felder ausgefüllt hast!", "error");
-	}
-});
+handleAuthenticationKey(getActivities);
 
 function getActivities() {
 	// Hide authentication form
 	$("#authenticationForm").hide();
-	$.getJSON(appConfig['apiRoot'] + '/activities?k=' + authKey)
+	$.getJSON(appConfig['apiRoot'] + '/activities?k=' + getAuthenticationKey())
 	.success(function(data) {
 		// Hide 404 message
 		$("#404message").hide();
@@ -51,19 +26,12 @@ function getActivities() {
 		console.log(jqXHR);
 		switch (jqXHR.status) {
 			case 401:
-				// Show authentication form
-				$("#authenticationForm").show();
-				// Hide table
-				$("table").hide();
-				deleteCookie('authKey');
-				localStorage.removeItem("authKey");
-				authKey = null;
+				deleteAuthenticationKey();
+				$('#authenticationForm').show();
+				scrollTo('#authenticationForm');
 				sweetAlert("Ups...", "Bitte überprüfe Deine Anmeldedaten.", "error");
 				break;
 			case 404:
-				// Hide table
-				$("table").hide();
-				// Show 404 message
 				$("#404message").show();
 				scrollTo('.jumbotron');
 				break;

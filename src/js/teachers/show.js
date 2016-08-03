@@ -4,48 +4,23 @@
  *
  * See the file "LICENSE" for the full license governing this code.
  */
-// The authentication key
-var authKey = getAuthenticationKey();
-if (authKey != null && authKey.length != 0) {
-	getTeachers();
-}
-$('form').on('submit', function(e) {
-	// Prevent default action
-	e.preventDefault();
-	// Get username
-	var username = $('#username').val().trim().toLowerCase();
-	// Get password
-	var password = $('#password').val().trim();
-	// Check if fields are not empty
-	if (username.length != 0 && password.length != 0) {
-		authKey = getHash(username, password);
-		setAuthenticationKey(authKey);
-		getTeachers();
-	}
-	else {
-		// Show authentication form
-		$("#divForm").show();
-		// Hide teachers table
-		$("#teachersTable").hide();
-		sweetAlert("Ups...", "Bitte überprüfe, ob Du alle Felder ausgefüllt hast!", "error");
-	}
-});
+handleAuthenticationKey(getTeachers);
 
 function getTeachers() {
 	// Hide authentication form
-	$("#divForm").hide();
-	$.getJSON(appConfig['apiRoot'] + '/teachers?k=' + authKey)
+	$("#authenticationForm").hide();
+	$.getJSON(appConfig['apiRoot'] + '/teachers?k=' + getAuthenticationKey())
 	.success(function(data) {
 		// Hide authentication form
-		$("#divForm").hide();
+		$("#authenticationForm").hide();
 		// Hide 404 message
 		$("#404message").hide();
 		// Show teachers table
-		$("#teachersTable").show();
+		$("table").show();
 		// Clear table
-		$("#teachersTable tbody").remove();
+		$("table tbody").remove();
 		// Add table body
-		$("#teachersTable").append("<tbody />");
+		$("table").append("<tbody />");
 		drawTable(data);
 	})
 	.fail(function(jqXHR, textStatus, errorThrown) {
@@ -53,19 +28,12 @@ function getTeachers() {
 		console.log(jqXHR);
 		switch (jqXHR.status) {
 			case 401:
-				// Show authentication form
-				$("#divForm").show();
-				// Hide teachers table
-				$("#teachersTable").hide();
-				deleteCookie('authKey');
-				localStorage.removeItem("authKey");
-				authKey = null;
+				deleteAuthenticationKey();
+				$('#authenticationForm').show();
+				scrollTo('#authenticationForm');
 				sweetAlert("Ups...", "Bitte überprüfe Deine Anmeldedaten.", "error");
 				break;
 			case 404:
-				// Hide teachers table
-				$("#teachersTable").hide();
-				// Show 404 message
 				$("#404message").show();
 				scrollTo('.jumbotron');
 				break;
@@ -92,7 +60,7 @@ function drawTable(data) {
 		drawRow(data[i]);
 	}
 	// Hide border-bottom of last table row
-	$('#teachersTable').find('tr:visible:last').css("border-bottom", "none");
+	$('table').find('tr:visible:last').css("border-bottom", "none");
 }
 
 function drawRow(rowData) {
@@ -115,7 +83,7 @@ function drawRow(rowData) {
 	if (rowData.edited != '-') {
 		edited = formatToFullLocal(rowData.edited);
 	}
-	$("#teachersTable tbody").append(row);
+	$("table tbody").append(row);
 	row.append($("<td data-label='Name' class='tableTeacher'>" + name + "</td>"));
 	row.append($("<td data-label='Archiviert'>" + archived + "</td>"));
 	row.append($("<td data-label='Erstellt'>" + added + "</td>"));
@@ -140,7 +108,7 @@ function deleteTeacher(id) {
 	},
 	function() {
 		$.ajax({
-			url: appConfig['apiRoot'] + '/teachers/' + id + '?k=' + authKey,
+			url: appConfig['apiRoot'] + '/teachers/' + id + '?k=' + getAuthenticationKey(),
 			type: 'DELETE'
 		})
 		.success(function(data, textStatus, xhr) {

@@ -8,11 +8,61 @@
 var teachers = {};
 // The array containing the courses names
 var courses = {};
-// The authentication key
-var authKey = getAuthenticationKey();
-if (authKey != null && authKey != '') {
-	getTeachers();
-}
+handleAuthenticationKey(getTeachers);
+// On submit of the form
+$('#changesForm').on('submit', function(e) {
+	// Prevent default action
+	e.preventDefault();
+	// Get startBy day
+	var startBy = $('#startBy').val().trim();
+	// Get endBy day
+	var endBy = $('#endBy').val().trim();
+	// Get teacher
+	var teacher = [];
+	$('#teacherDrop input:checked').each(function(i) {
+		teacher[i] = $(this).val();
+	});
+	// Get course
+	var course = [];
+	$('#courseDrop input:checked').each(function(i) {
+		course[i] = $(this).val();
+	});
+	if (startBy != null && startBy.length != 0) {
+		var startByIsNotEmpty = true;
+	}
+	if (endBy != null && endBy.length != 0) {
+		var endByIsNotEmpty = true;
+	}
+	if (startByIsNotEmpty || endByIsNotEmpty) {
+		// Get username
+		var username = $('#username').val().trim().toLowerCase();
+		// Get password
+		var password = $('#password').val().trim();
+		// Check if fields are not empty
+		if (username.length != 0 && password.length != 0) {
+			setAuthenticationKey(getHash(username, password));
+		}
+		if (startByIsNotEmpty && endByIsNotEmpty) {
+			startBy = formatToISO(startBy);
+			endBy = formatToISO(endBy);
+			if ((new Date(startBy)) > (new Date(endBy))) {
+				sweetAlert("Ups...", "Der Start muss vor dem Ende sein.", "error");
+			}
+			else {
+				getChanges(startBy, endBy, teacher, course);
+			}
+		}
+		else if (startByIsNotEmpty) {
+			startBy = formatToISO(startBy);
+			getChanges(startBy, null, teacher, course);
+		}
+		else if (endByIsNotEmpty) {
+			endBy = formatToISO(endBy);
+			getChanges(null, endBy, teacher, course);
+		}
+
+	}
+});
 // Toggle view switch
 var viewMode = '';
 if (getURLParameter('view') == 'expert') {
@@ -48,83 +98,6 @@ if (viewMode != 'expert') {
 	$('#viewDefault').hide();
 	$('#viewExpert').show();
 }
-// On submit of the form
-$('#authForm form').on('submit', function(e) {
-	// Prevent default action
-	e.preventDefault();
-	// Get username
-	var username = $('#username').val().trim().toLowerCase();
-	// Get password
-	var password = $('#password').val().trim();
-	// Check if fields are not empty
-	if (username.length != 0 && password.length != 0) {
-		authKey = getHash(username, password);
-		setAuthenticationKey(authKey);
-		getTeachers();
-	}
-	else {
-		// Show authentication form
-		$("#authForm").show();
-		// Hide changes table
-		$("#changesTable").hide();
-		sweetAlert("Ups...", "Bitte überprüfe, ob Du alle Felder ausgefüllt hast!", "error");
-	}
-});
-// On submit of the form
-$('#changesForm').on('submit', function(e) {
-	// Prevent default action
-	e.preventDefault();
-	// Get startBy day
-	var startBy = $('#startBy').val().trim();
-	// Get endBy day
-	var endBy = $('#endBy').val().trim();
-	// Get teacher
-	var teacher = [];
-	$('#teacherDrop input:checked').each(function(i) {
-		teacher[i] = $(this).val();
-	});
-	// Get course
-	var course = [];
-	$('#courseDrop input:checked').each(function(i) {
-		course[i] = $(this).val();
-	});
-	if (startBy != null && startBy.length != 0) {
-		var startByIsNotEmpty = true;
-	}
-	if (endBy != null && endBy.length != 0) {
-		var endByIsNotEmpty = true;
-	}
-	if (startByIsNotEmpty || endByIsNotEmpty) {
-		// Get username
-		var username = $('#username').val().trim().toLowerCase();
-		// Get password
-		var password = $('#password').val().trim();
-		// Check if fields are not empty
-		if (username.length != 0 && password.length != 0) {
-			authKey = getHash(username, password);
-			setAuthenticationKey(authKey);
-		}
-		if (startByIsNotEmpty && endByIsNotEmpty) {
-			startBy = formatToISO(startBy);
-			endBy = formatToISO(endBy);
-			if ((new Date(startBy)) > (new Date(endBy))) {
-				sweetAlert("Ups...", "Der Start muss vor dem Ende sein.", "error");
-			}
-			else {
-				getChanges(startBy, endBy, teacher, course);
-			}
-		}
-		else if (startByIsNotEmpty) {
-			startBy = formatToISO(startBy);
-			getChanges(startBy, null, teacher, course);
-		}
-		else if (endByIsNotEmpty) {
-			endBy = formatToISO(endBy);
-			getChanges(null, endBy, teacher, course);
-		}
-
-	}
-});
 
 initializeDatePicker();
 $('#startByPicker').datepicker('update', "0");
@@ -132,9 +105,9 @@ $('#endByPicker').datepicker('update', "+7d");
 
 function getTeachers() {
 	// Hide authentication form
-	$("#authForm").hide();
+	$("#authenticationForm").hide();
 	// Get teachers
-	$.getJSON(appConfig['apiRoot'] + '/teachers?k=' + authKey)
+	$.getJSON(appConfig['apiRoot'] + '/teachers?k=' + getAuthenticationKey())
 	.success(function(data) {
 		addTeachers(data);
 		drawTeachers();
@@ -150,12 +123,11 @@ function getTeachers() {
 			console.log(jqXHR);
 			if (jqXHR.status == 401) {
 				// Show authentication form
-				$("#authForm").show();
+				$("#authenticationForm").show();
 				// Hide changes table
-				$("#changesTable").hide();
+				$("table").hide();
 				localStorage.removeItem("authKey");
 				deleteCookie('authKey');
-				authKey = null;
 				sweetAlert("Ups...", "Bitte überprüfe Deine Anmeldedaten.", "error");
 			}
 			else {
@@ -166,9 +138,9 @@ function getTeachers() {
 }
 function getCourses() {
 	// Hide authentication form
-	$("#authForm").hide();
+	$("#authenticationForm").hide();
 	// Get courses
-	$.getJSON(appConfig['apiRoot'] + '/courses?k=' + authKey)
+	$.getJSON(appConfig['apiRoot'] + '/courses?k=' + getAuthenticationKey())
 	.success(function(data) {
 		addCourses(data);
 		drawCourses();
@@ -184,12 +156,11 @@ function getCourses() {
 			console.log(jqXHR);
 			if (jqXHR.status == 401) {
 				// Show authentication form
-				$("#authForm").show();
+				$("#authenticationForm").show();
 				// Hide changes table
-				$("#changesTable").hide();
+				$("table").hide();
 				localStorage.removeItem("authKey");
 				deleteCookie('authKey');
-				authKey = null;
 				sweetAlert("Ups...", "Bitte überprüfe Deine Anmeldedaten.", "error");
 			}
 			else {
@@ -206,18 +177,18 @@ function getChanges(startBy, endBy, teacher, course) {
 		teacher = null;
 	}
 	// Get changes
-	$.getJSON(appConfig['apiRoot'] + '/changes?k=' + authKey + '&startBy=' + startBy + '&endBy=' + endBy + ((teacher != null) ? ('&teachers=' + teacher) : '') + ((course != null) ? ('&courses=' + course) : ''))
+	$.getJSON(appConfig['apiRoot'] + '/changes?k=' + getAuthenticationKey() + '&startBy=' + startBy + '&endBy=' + endBy + ((teacher != null) ? ('&teachers=' + teacher) : '') + ((course != null) ? ('&courses=' + course) : ''))
 	.success(function(data) {
 		// Hide authentication form
-		$("#authForm").hide();
+		$("#authenticationForm").hide();
 		// Hide 404 message
 		$("#404message").hide();
 		// Show changes table
-		$("#changesTable").show();
+		$("table").show();
 		// Clear table
-		$("#changesTable tbody").remove();
+		$("table tbody").remove();
 		// Add table body
-		$("#changesTable").append("<tbody />");
+		$("table").append("<tbody />");
 		// Show changes form
 		$("#changesForm").show();
 		drawTable(data);
@@ -227,17 +198,16 @@ function getChanges(startBy, endBy, teacher, course) {
 		console.log(jqXHR);
 		if (jqXHR.status == 401) {
 			// Show authentication form
-			$("#authForm").show();
+			$("#authenticationForm").show();
 			// Hide changes table
-			$("#changesTable").hide();
+			$("table").hide();
 			localStorage.removeItem("authKey");
 			deleteCookie('authKey');
-			authKey = null;
 			sweetAlert("Ups...", "Bitte überprüfe Deine Anmeldedaten.", "error");
 		}
 		else if (jqXHR.status == 404) {
 			// Hide changes table
-			$("#changesTable").hide();
+			$("table").hide();
 			// Show changes form
 			$("#changesForm").show();
 			// Show 404 message
@@ -489,10 +459,10 @@ function drawTable(data) {
 		$(".tableText").hide();
 	}
 	// Hide last border-bottom of each table row
-	$('#changesTable tr').find('td:visible:last').css("border-bottom", "none");
+	$('table tr').find('td:visible:last').css("border-bottom", "none");
 	// Hide border-bottom of last table row
-	$('#changesTable').find('tr:visible:last').css("border-bottom", "none");
-	scrollTo('#changesTable');
+	$('table').find('tr:visible:last').css("border-bottom", "none");
+	scrollTo('table');
 }
 
 function drawRow(rowData, allData) {
@@ -584,7 +554,7 @@ function drawRow(rowData, allData) {
 			ids += "," + allData[entry].id;
 		});
 	}
-	$("#changesTable tbody").append(row);
+	$("table tbody").append(row);
 	row.append($("<td data-label='Lehrer' class='tableTeacher'>" + teacher + "</td>"));
 	row.append($("<td data-label='Kurs' class='tableCourse'>" + course + "</td>"));
 	row.append($("<td data-label='Start'>" + startBy + "</td>"));
@@ -632,7 +602,7 @@ function deleteChanges(ids) {
 			deferreds.push(
 				// Request DELETE of ID
 				$.ajax({
-					url: appConfig['apiRoot'] + '/changes/' + id + '?k=' + authKey,
+					url: appConfig['apiRoot'] + '/changes/' + id + '?k=' + getAuthenticationKey(),
 					type: 'DELETE',
 					async: false
 				})

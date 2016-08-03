@@ -6,40 +6,15 @@
  */
 // The array containing the courses names
 var courses = {};
-// The authentication key
-var authKey = getAuthenticationKey();
-if (authKey != null && authKey.length != 0) {
-	getCourses();
-}
-$('form').on('submit', function(e) {
-	// Prevent default action
-	e.preventDefault();
-	// Get username
-	var username = $('#username').val().trim().toLowerCase();
-	// Get password
-	var password = $('#password').val().trim();
-	// Check if fields are not empty
-	if (username.length != 0 && password.length != 0) {
-		authKey = getHash(username, password);
-		setAuthenticationKey(authKey);
-		getCourses();
-	}
-	else {
-		// Show authentication form
-		$("#divForm").show();
-		// Hide table
-		$("table").hide();
-		sweetAlert("Ups...", "Bitte überprüfe, ob Du alle Felder ausgefüllt hast!", "error");
-	}
-});
+handleAuthenticationKey(getCourses);
 
 function getCourses() {
 	// Hide authentication form
-	$("#divForm").hide();
-	$.getJSON(appConfig['apiRoot'] + '/courses?k=' + authKey)
+	$("#authenticationForm").hide();
+	$.getJSON(appConfig['apiRoot'] + '/courses?k=' + getAuthenticationKey())
 	.success(function(data) {
 		// Hide authentication form
-		$("#divForm").hide();
+		$("#authenticationForm").hide();
 		// Hide 404 message
 		$("#404message").hide();
 		// Show table
@@ -55,19 +30,12 @@ function getCourses() {
 		console.log(jqXHR);
 		switch (jqXHR.status) {
 			case 401:
-				// Show authentication form
-				$("#divForm").show();
-				// Hide table
-				$("table").hide();
-				deleteCookie('authKey');
-				localStorage.removeItem("authKey");
-				authKey = null;
+				deleteAuthenticationKey();
+				$('#authenticationForm').show();
+				scrollTo('#authenticationForm');
 				sweetAlert("Ups...", "Bitte überprüfe Deine Anmeldedaten.", "error");
 				break;
 			case 404:
-				// Hide table
-				$("table").hide();
-				// Show 404 message
 				$("#404message").show();
 				scrollTo('.jumbotron');
 				break;
@@ -141,7 +109,7 @@ function deleteCourse(id) {
 	},
 	function() {
 		$.ajax({
-			url: appConfig['apiRoot'] + '/courses/' + id + '?k=' + authKey,
+			url: appConfig['apiRoot'] + '/courses/' + id + '?k=' + getAuthenticationKey(),
 			type: 'DELETE'
 		})
 		.success(function(data, textStatus, xhr) {

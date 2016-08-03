@@ -22,6 +22,10 @@ $(document).ajaxStop(function() {
 /*
  * Authentication key
  */
+function deleteAuthenticationKey() {
+	localStorage.removeItem("authKey");
+	deleteCookie('authKey');
+}
 function getAuthenticationKey() {
 	// Check whether local storage works
 	if (typeof(Storage) !== 'undefined') {
@@ -49,6 +53,34 @@ function setAuthenticationKey(authKey) {
 	else {
 		setCookie('authKey', authKey);
 	}
+}
+
+function handleAuthenticationKey(callback) {
+	var authKey = getAuthenticationKey();
+	if (authKey !== undefined && authKey.length !== 0) {
+		callback();
+	}
+	$('#authenticationForm form').on('submit', function(e) {
+		// Prevent default action
+		e.preventDefault();
+		// Get username
+		var username = $('#username').val().trim().toLowerCase();
+		// Get password
+		var password = $('#password').val().trim();
+		// Check if fields are not empty
+		if (username.length !== 0 && password.length !== 0) {
+			authKey = getHash(username, password);
+			setAuthenticationKey(authKey);
+			callback();
+		}
+		else {
+			// Show authentication form
+			$("#authenticationForm").show();
+			// Hide table
+			$("table").hide();
+			sweetAlert("Ups...", "Bitte überprüfe, ob Du alle Felder ausgefüllt hast!", "error");
+		}
+	});
 }
 
 /*
@@ -195,4 +227,25 @@ function setTitle() {
 function setVersion() {
 	$('.versionParagraph').show();
 	$('.version').text(version);
+}
+
+function handleSimpleInformationForm(callback) {
+	$('#informationForm form').on('submit', function(e) {
+		// Prevent default action
+		e.preventDefault();
+		// Get name
+		var name = $('#name').val().trim();
+		var archived = $('#archived').is(':checked');
+		if (name.length != 0) {
+			callback(name, archived);
+		}
+		else {
+			sweetAlert("Ups...", "Du musst einen Namen angeben.", "error");
+		}
+	});
+}
+
+function showInformationForm() {
+	$("#authenticationForm").hide();
+	$("#informationForm").show();
 }
