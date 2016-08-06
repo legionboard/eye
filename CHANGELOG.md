@@ -1,5 +1,23 @@
 # Changelog of LegionBoard Eye
 
+## 0.2.0 (Upcoming)
+
+This release is up-to-date with Heart 0.2.0.
+
+* Add resource courses (7bd37108)
+* Add resource activities (7c27a547)
+* Group changes with same data except teacher and course (380dc906)
+* Hide columns if they are empty
+* Archive courses and teachers (e4e1811f)
+* Sort changes of one day alphabetically and by hour (e63203f8 and 3653493d)
+* Revised navigation; now sorted by resource (f7a01c24)
+* Use icons for edit/delete (56781d1a)
+* When a resource is empty, a information instead of an alert is shown (399e06c7)
+* Set start/end to today when creating changes (7379848f)
+* Improve code readability and maintainability a lot
+* Use [code climate](https://codeclimate.com/github/legionboard/eye)
+* Many more fixes
+
 ## 0.2.0-beta1 (03.08.2016)
 
 * First beta of new release
