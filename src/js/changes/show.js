@@ -304,24 +304,12 @@ function drawCourses() {
 	}
 }
 
-// Column "teacher" is empty
-var teacherIsEmpty;
-// Column "course" is empty
-var courseIsEmpty;
-// Column "hour" is empty
-var hourIsEmpty;
-// Column "text" is empty
-var textIsEmpty;
-// Column "covering teacher" is empty
-var coveringTeacherIsEmpty;
-// Column "private text" is empty
-var privateTextIsEmpty;
+// If a column has content, the key with the name of the column is set to true
+var columnHasContent;
 // Array index numbers of double changes (changes with same data except teacher/course)
 var doubles;
 // Changes IDs that are shown within other changes
 var alreadyShown;
-// If Heart uses an old MySQL version, edited is not working
-var editedIsWorking;
 
 function drawTable(data) {
 	// Sort alphabetically by teacher name
@@ -399,13 +387,7 @@ function drawTable(data) {
 			}
 		}
 	}
-	teacherIsEmpty = true;
-	courseIsEmpty = true;
-	hourIsEmpty = true;
-	textIsEmpty = true;
-	coveringTeacherIsEmpty = true;
-	privateTextIsEmpty = true;
-	editedIsWorking = false;
+	columnHasContent = {};
 	for (var i = 0; i < data.length; i++) {
 		if (!alreadyShown[data[i].id]) {
 			drawRow(data[i], data);
@@ -415,51 +397,41 @@ function drawTable(data) {
 	if (viewMode != 'expert') {
 		$(".expertViewOnly").hide();
 	}
-	// Show reason only when available
-	if (data[0].reason == '-') {
+	// Show columns only when available
+	$(".tableReason").show();
+	if (!columnHasContent['reason']) {
 		$(".tableReason").hide();
 	}
-	// Show privateText only when available
-	if (data[0].privateText == '-') {
+	$(".tablePrivateText").show();
+	if (!columnHasContent['privateText']) {
 		$(".tablePrivateText").hide();
 	}
-	// Show added only when available
-	if (data[0].added == '-') {
+	$(".tableAdded").show();
+	if (!columnHasContent['added']) {
 		$(".tableAdded").hide();
 	}
-	// Show edited only when available
 	$(".tableEdited").show();
-	if (data[0].edited == '-' || !editedIsWorking) {
+	if (!columnHasContent['edited']) {
 		$(".tableEdited").hide();
 	}
-	// Show teacher only when it is not empty
 	$(".tableTeacher").show();
-	if (teacherIsEmpty) {
+	if (!columnHasContent['teacher']) {
 		$(".tableTeacher").hide();
 	}
-	// Show course only when it is not empty
 	$(".tableCourse").show();
-	if (courseIsEmpty) {
+	if (!columnHasContent['course']) {
 		$(".tableCourse").hide();
 	}
-	// Show hours only when they are not empty
 	$(".tableHours").show();
-	if (hourIsEmpty) {
+	if (!columnHasContent['hours']) {
 		$(".tableHours").hide();
 	}
-	// Show covering teacher only when it is not empty
 	$(".tableCoveringTeacher").show();
-	if (coveringTeacherIsEmpty) {
+	if (!columnHasContent['coveringTeacher']) {
 		$(".tableCoveringTeacher").hide();
 	}
-	// Show private text only when it is not empty
-	$(".tablePrivateText").show();
-	if (privateTextIsEmpty) {
-		$(".tablePrivateText").hide();
-	}
-	// Show text only when it is not empty
 	$(".tableText").show();
-	if (textIsEmpty) {
+	if (!columnHasContent['text']) {
 		$(".tableText").hide();
 	}
 	// Hide last border-bottom of each table row
@@ -473,7 +445,7 @@ function drawRow(rowData, allData) {
 	var row = $("<tr />");
 	var teacher = '-';
 	if (rowData.teacher != '0') {
-		teacherIsEmpty = false;
+		columnHasContent['teacher'] = true;
 		teacher = teachers[rowData.teacher];
 		// Append other teachers with same data
 		if (rowData.id in doubles) {
@@ -484,7 +456,7 @@ function drawRow(rowData, allData) {
 	}
 	var course = '-';
 	if (rowData.course != '0' && rowData.course != null) {
-		courseIsEmpty = false;
+		columnHasContent['course'] = true;
 		course = courses[rowData.course];
 	}
 	var type = "Ausfall";
@@ -496,27 +468,30 @@ function drawRow(rowData, allData) {
 	}
 	var coveringTeacher = "-";
 	if (rowData.coveringTeacher != 0) {
-		coveringTeacherIsEmpty = false;
+		columnHasContent['coveringTeacher'] = true;
 		coveringTeacher = teachers[rowData.coveringTeacher];
 	}
 	var text = "-";
 	if (rowData.text != '') {
-		textIsEmpty = false;
+		columnHasContent['text'] = true;
 		text = rowData.text;
 	}
 	var reason = '-';
 	if (rowData.reason == '0') {
+		columnHasContent['reason'] = true;
 		reason = 'Krank';
 	}
 	if (rowData.reason == '1') {
+		columnHasContent['reason'] = true;
 		reason = 'Dienstlich';
 	}
 	if (rowData.reason == '2') {
+		columnHasContent['reason'] = true;
 		reason = 'Beurlaubt';
 	}
 	var privateText = '-';
 	if (rowData.privateText != '-' && rowData.privateText != '') {
-		privateTextIsEmpty = false;
+		columnHasContent['privateText'] = true;
 		privateText = rowData.privateText;
 	}
 	// Hide hour if it's 00
@@ -525,7 +500,7 @@ function drawRow(rowData, allData) {
 	var endingHour = rowData.endingHour;
 	var hours = '-';
 	if (startingHour != '' || endingHour != '') {
-		hourIsEmpty = false;
+		columnHasContent['hours'] = true;
 		if (startingHour != '' && endingHour == '') {
 			hours = 'Ab ' + startingHour.replace(/^0+/, '') + '. Std.';
 		}
@@ -545,12 +520,13 @@ function drawRow(rowData, allData) {
 	var added = '-';
 	// Only show added if change contains no doubles
 	if (rowData.added != '-' && !(rowData.id in doubles)) {
+		columnHasContent['added'] = true;
 		added = formatToFullLocal(rowData.added);
 	}
 	var edited = '-';
 	// Only show edited if change contains no doubles
 	if (rowData.edited != '-' && !(rowData.id in doubles) && rowData.edited != "0000-00-00 00:00:00") {
-		editedIsWorking = true;
+		columnHasContent['edited'] = true;
 		edited = formatToFullLocal(rowData.edited);
 	}
 	var ids = rowData.id;
