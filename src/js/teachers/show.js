@@ -43,6 +43,8 @@ function getTeachers() {
 	});
 }
 
+// If a column has content, the key with the name of the column is set to true
+var columnHasContent;
 function drawTable(data) {
 	data.sort(function(a, b) {
 		var nameA = a.name.toLowerCase();
@@ -56,8 +58,17 @@ function drawTable(data) {
 		}
 		return 0;
 	});
+	columnHasContent = {};
 	for (var i = 0; i < data.length; i++) {
 		drawRow(data[i]);
+	}
+	$(".tableAdded").show();
+	if (!columnHasContent['added']) {
+		$(".tableAdded").hide();
+	}
+	$(".tableEdited").show();
+	if (!columnHasContent['edited']) {
+		$(".tableEdited").hide();
 	}
 	// Hide border-bottom of last table row
 	$('table').find('tr:visible:last').css("border-bottom", "none");
@@ -76,18 +87,20 @@ function drawRow(rowData) {
 	var added = '-';
 	// Only show added if change contains no doubles
 	if (rowData.added != '-') {
+		columnHasContent['added'] = true;
 		added = formatToFullLocal(rowData.added);
 	}
 	var edited = '-';
 	// Only show edited if change contains no doubles
 	if (rowData.edited != '-') {
+		columnHasContent['edited'] = true;
 		edited = formatToFullLocal(rowData.edited);
 	}
 	$("table tbody").append(row);
 	row.append($("<td data-label='Name' class='tableTeacher'>" + name + "</td>"));
 	row.append($("<td data-label='Archiviert'>" + archived + "</td>"));
-	row.append($("<td data-label='Erstellt'>" + added + "</td>"));
-	row.append($("<td data-label='Aktualisiert'>" + edited + "</td>"));
+	row.append($("<td data-label='Erstellt' class='tableAdded'>" + added + "</td>"));
+	row.append($("<td data-label='Aktualisiert' class='tableEdited'>" + edited + "</td>"));
 	row.append($("<td data-label='Aktion'><a href='javascript:void(0)' onclick='editTeacher(" + rowData.id + ");'><img alt='Edit' src='../images/circle-edit.png'></a> <a href='javascript:void(0)' onclick='deleteTeacher(" + rowData.id + ");'><img alt='Delete' src='../images/circle-delete.png'></a></td>"));
 
 }
