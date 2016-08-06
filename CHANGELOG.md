@@ -15,8 +15,18 @@ This release is up-to-date with Heart 0.2.0.
 * When a resource is empty, a information instead of an alert is shown (399e06c7)
 * Set start/end to today when creating changes (7379848f)
 * Improve code readability and maintainability a lot
+* Update jQuery to 2.2.4 (4f0e6735)
 * Use [code climate](https://codeclimate.com/github/legionboard/eye)
 * Many more fixes
+
+## 0.2.0-beta2 (06.08.2016)
+
+Changes to previous beta release:
+
+* Hide every column when empty, in every resource
+* Hide course/teacher picker in showing changes (6d87257b)
+* Set start/end to today when creating changes (7379848f)
+* Update jQuery to 2.2.4 (4f0e6735)
 
 ## 0.2.0-beta1 (03.08.2016)
 
