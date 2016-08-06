@@ -11,6 +11,8 @@ var teachers = {};
 
 handleAuthenticationKey(getCourses);
 initializeDatePicker();
+$('#startByPicker').datepicker('update', "0");
+$('#endByPicker').datepicker('update', "0");
 
 // Submit information form by pressing enter
 $('#informationForm input').keypress(function(event) {
