@@ -115,6 +115,7 @@ function getTeachers() {
 	})
 	.fail(function(jqXHR, textStatus, errorThrown) {
 		if (jqXHR.status == 404) {
+			$("#teacherDrop").hide();
 			// Having no teachers is fine as changes do not need to reference one
 			getCourses();
 		}
@@ -148,6 +149,7 @@ function getCourses() {
 	})
 	.fail(function(jqXHR, textStatus, errorThrown) {
 		if (jqXHR.status == 404) {
+			$("#courseDrop").hide();
 			// Having no courses is fine as changes do not need to reference one
 			getChanges();
 		}
@@ -260,6 +262,7 @@ function drawTeachers() {
 			$("#teacherDrop ul").append(row);
 		}
 	}
+	$("#teacherDrop").show();
 }
 
 // Courses IDs of archived ones
@@ -302,6 +305,7 @@ function drawCourses() {
 			$("#courseDrop ul").append(row);
 		}
 	}
+	$("#courseDrop").show();
 }
 
 // If a column has content, the key with the name of the column is set to true
