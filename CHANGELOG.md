@@ -21,6 +21,9 @@ release with many new features:
 * Use [code climate](https://codeclimate.com/github/legionboard/eye)
 * Many more fixes
 
+This release is up-to-date with
+[Heart 0.2.0](https://gitlab.com/legionboard/heart/blob/master/CHANGELOG.md#020-upcoming).
+
 ## 0.2.0-beta2 (06.08.2016)
 
 Changes to previous beta release:
