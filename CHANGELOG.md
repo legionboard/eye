@@ -26,7 +26,8 @@ This release is up-to-date with
 
 ## 0.2.0-beta2 (06.08.2016)
 
-Changes to previous beta release:
+This is the second beta release of Eye 0.2.0. Here are the changes to
+the previous beta release:
 
 * Hide every column when empty, in every resource
 * Hide course/teacher picker in showing changes (6d87257b)
