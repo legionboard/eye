@@ -2,7 +2,9 @@
 
 ## 0.2.0 (Upcoming)
 
-This release is up-to-date with Heart 0.2.0.
+This is the second big release of LegionBoard Eye. With changes in
+almost all files, ~2k additions and ~1k deletions, this is a great
+release with many new features:
 
 * Add resource courses (7bd37108)
 * Add resource activities (7c27a547)
