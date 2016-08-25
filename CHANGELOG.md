@@ -36,7 +36,7 @@ the previous beta release:
 
 ## 0.2.0-beta1 (03.08.2016)
 
-* First beta of new release
+This is the first beta release of Eye 0.2.0.
 
 ## 0.1.3 (03.06.2016)
 
