@@ -62,7 +62,7 @@ function getCourse() {
 	.success(function(data) {
 	$("#informationForm").show();
 		$('#name').val(data[0]['name']);
-		$('#archived').prop('checked', (data[0]['archived'] == 'true') ? true : false);
+		$('#archived').prop('checked', (data[0]['archived']) ? true : false);
 	})
 	.fail(function(jqXHR, textStatus, errorThrown) {
 		console.log('Getting courses failed.');

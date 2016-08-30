@@ -228,7 +228,7 @@ function addTeachers(data) {
 	archivedTeachers = {};
 	for (var i = 0; i < data.length; i++) {
 		// Do not add if teacher is archived
-		if (data[i].archived == 'true') {
+		if (data[i].archived) {
 			archivedTeachers[data[i].id] = true;
 		}
 		addTeacher(data[i]);
@@ -271,7 +271,7 @@ function addCourses(data) {
 	archivedCourses = {};
 	for (var i = 0; i < data.length; i++) {
 		// Do not add if course is archived
-		if (data[i].archived == 'true') {
+		if (data[i].archived) {
 			archivedCourses[data[i].id] = true;
 		}
 		addCourse(data[i]);

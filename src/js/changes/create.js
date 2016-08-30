@@ -218,7 +218,7 @@ function getTeachers() {
 function addCourses(data) {
 	for (var i = 0; i < data.length; i++) {
 		// Do not add if course is archived
-		if (data[i].archived == 'true') {
+		if (data[i].archived) {
 			continue;
 		}
 		courses[data[i].id] = data[i].name;
@@ -252,7 +252,7 @@ function drawCourses() {
 function addTeachers(data) {
 	for (var i = 0; i < data.length; i++) {
 		// Do not add if teacher is archived
-		if (data[i].archived == 'true') {
+		if (data[i].archived) {
 			continue;
 		}
 		teachers[data[i].id] = data[i].name;

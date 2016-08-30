@@ -24,6 +24,13 @@ release with many new features:
 This release is up-to-date with
 [Heart 0.2.0](https://gitlab.com/legionboard/heart/blob/master/CHANGELOG.md#020-upcoming).
 
+## 0.2.0-beta3 (30.08.2016)
+
+This is the third beta release of Eye 0.2.0. Here are the changes to
+the previous beta release:
+
+* Support field `archived` of courses and teachers being served as a boolean
+
 ## 0.2.0-beta2 (06.08.2016)
 
 This is the second beta release of Eye 0.2.0. Here are the changes to

@@ -80,7 +80,7 @@ function drawRow(rowData) {
 	var row = $("<tr />");
 	var name = rowData.name;
 	var archived = rowData.archived;
-	if (archived == 'true') {
+	if (archived) {
 		archived = '\u2713';
 	}
 	else {
