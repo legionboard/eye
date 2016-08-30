@@ -187,9 +187,8 @@ function getTeachers() {
 				sweetAlert("Ups...", "Bitte überprüfe Deine Anmeldedaten.", "error");
 				break;
 			case 404:
-				$("#informationForm").show();
-				scrollTo("#informationForm");
 				$("#teacherDiv").hide();
+				getChange();
 				break;
 			default:
 				sweetAlert("Ups...", "Es gab einen Fehler. Bitte versuche es später erneut.", "error");

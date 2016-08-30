@@ -24,6 +24,13 @@ release with many new features:
 This release is up-to-date with
 [Heart 0.2.0](https://gitlab.com/legionboard/heart/blob/master/CHANGELOG.md#020-upcoming).
 
+## 0.2.0-beta4 (30.08.2016)
+
+This is the fourth beta release of Eye 0.2.0. Here are the changes to
+the previous beta release:
+
+* Fix bug with editing changes when teachers are empty
+
 ## 0.2.0-beta3 (30.08.2016)
 
 This is the third beta release of Eye 0.2.0. Here are the changes to
