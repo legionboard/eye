@@ -5,8 +5,8 @@
 
 This document will guide you through the installation of LegionBoard Eye.
 You can find the online version on
-[GitLab](https://gitlab.com/legionboard/eye/blob/master/INSTALL.md) and
-[GitHub](https://github.com/legionboard/eye/blob/master/INSTALL.md). If
+[GitLab](https://gitlab.com/legionboard/eye/blob/master/install/english.md) and
+[GitHub](https://github.com/legionboard/eye/blob/master/install/english.md). If
 you find any issue or have a question, don't hestiate to open an issue
 on [GitLab](https://gitlab.com/legionboard/eye/issues).
 
