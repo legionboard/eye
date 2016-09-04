@@ -10,7 +10,7 @@ software. You can for example upload it to GitLab pages to have your
 own client, independent from your institution's main client. All you
 need to do is to download the source code, add your API to the
 [configuration](src/config/configuration-template.js) and open the site
-in a browser. You can find a installation guide [here](install/english.md).
+in a browser. You can find an installation guide [here](install/english.md).
 Have fun and enjoy!
 
 This version of Eye requires version `0.2.0` or newer of
