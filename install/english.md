@@ -1,7 +1,7 @@
 # Install LegionBoard Eye
 
 *This is the English version of the installation guide. A
-[German version](INSTALL_de.md) is also available.*
+[German version](german.md) is also available.*
 
 This document will guide you through the installation of LegionBoard Eye.
 You can find the online version on
