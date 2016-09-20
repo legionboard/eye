@@ -498,10 +498,14 @@ function drawRow(rowData, allData) {
 		columnHasContent['privateText'] = true;
 		privateText = rowData.privateText;
 	}
-	// Hide hour if it's 00
 	var startingHour = rowData.startingHour;
-	// Hide hour if it's 20
+	if (startingHour == '0' || startingHour == '00') {
+		startingHour = '';
+	}
 	var endingHour = rowData.endingHour;
+	if (endingHour == '0' || endingHour == '00') {
+		endingHour = '';
+	}
 	var hours = '-';
 	if (startingHour != '' || endingHour != '') {
 		columnHasContent['hours'] = true;

@@ -324,12 +324,20 @@ function insert(data) {
 	var startingDate = data['startingDate'];
 	$('#startingDate').val(startingDate.substring(8, 10) + '.' + startingDate.substring(5, 7) + '.' + startingDate.substring(0, 4));
 	// Set starting hour
-	$('#startingHour').val(data['startingHour']);
+	var startingHour = data.startingHour;
+	if (startingHour == '0' || startingHour == '00') {
+		startingHour = '';
+	}
+	$('#startingHour').val(startingHour);
 	// Set ending date
 	var endingDate = data['endingDate'];
 	$('#endingDate').val(endingDate.substring(8, 10) + '.' + endingDate.substring(5, 7) + '.' + endingDate.substring(0, 4));
 	// Set ending hour
-	$('#endingHour').val(data['endingHour']);
+	var endingHour = data.endingHour;
+	if (endingHour == '0' || endingHour == '00') {
+		endingHour = '';
+	}
+	$('#endingHour').val(endingHour);
 	// Set text
 	$('#text').val(data['text']);
 	// Set reason
