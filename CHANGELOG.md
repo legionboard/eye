@@ -22,7 +22,7 @@ release with many new features:
 * Many more fixes
 
 This release is up-to-date with
-[Heart 0.2.0](https://gitlab.com/legionboard/heart/blob/master/CHANGELOG.md#020-upcoming).
+[Heart 0.2.0](https://gitlab.com/legionboard/heart/blob/master/CHANGELOG.md#020-20092016).
 
 ## 0.2.0-beta4 (30.08.2016)
 
