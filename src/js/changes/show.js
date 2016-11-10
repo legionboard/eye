@@ -519,12 +519,14 @@ function drawRow(rowData, allData) {
 			hours = startingHour.replace(/^0+/, '') + '. - ' + endingHour.replace(/^0+/, '') + '. Std.';
 		}
 	}
-	var startBy =
-		getWeekDay(rowData.startingDate) + ', ' +
-		formatToShortLocal(rowData.startingDate);
-	var endBy =
-		getWeekDay(rowData.endingDate) + ', ' +
-		formatToShortLocal(rowData.endingDate);
+	var startBy = getFullWeekDay(rowData.startingDate);
+	if (!isInCurrentWeek(rowData.startingDate)) {
+		startBy = getWeekDay(rowData.startingDate) + ', ' + formatToShortLocal(rowData.startingDate);
+	}
+	var endBy = getFullWeekDay(rowData.endingDate);
+	if (!isInCurrentWeek(rowData.endingDate)) {
+		endBy = getWeekDay(rowData.endingDate) + ', ' + formatToShortLocal(rowData.endingDate);
+	}
 	var added = '-';
 	// Only show added if change contains no doubles
 	if (rowData.added != '-' && !(rowData.id in doubles)) {

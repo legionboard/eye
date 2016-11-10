@@ -161,6 +161,34 @@ function getWeekDay(date) {
 	return days[date.getDay()];
 }
 
+/**
+ * Returns long form of weekday (Montag, Dienstag, ..)
+ */
+function getFullWeekDay(date) {
+	date = new Date(date);
+	var days = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+	return days[date.getDay()];
+}
+
+/**
+ * Returns true if date is in the current week
+ */
+function isInCurrentWeek(dateString) {
+	var date = new Date(dateString);
+
+	var today = new Date();
+	today.setHours(0);
+	today.setMinutes(0);
+	today.setSeconds(0);
+	var dayOfWeek = today.getDay();
+	var diffToLastMonday = today.getDate() - dayOfWeek + (dayOfWeek == 0 ? -6 : 1);
+	var diffToNextSunday = today.getDate() + dayOfWeek + (dayOfWeek == 0 ? 6 : -1);
+
+	var lastMonday = new Date(today.setDate(diffToLastMonday));
+	var nextSunday = new Date(today.setDate(diffToNextSunday));
+	return date >= lastMonday && date <= nextSunday;
+}
+
 /*
  * Hashing
  */

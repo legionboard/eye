@@ -1,5 +1,9 @@
 # Changelog of LegionBoard Eye
 
+## 0.2.1 (Upcoming)
+
+* Hide exact date if it is in the current week
+
 ## 0.2.0 (20.09.2016)
 
 This is the second big release of LegionBoard Eye. With changes in
