@@ -9,6 +9,11 @@ and based on HTML and JavaScript,
 so that it can be run on local machines without any server software.
 You can for example upload it to GitLab pages to have your own client,
 independent from your institution's main client.
+Therefore,
+just fork the project,
+[configure it](src/config/configuration-template.js) for your school's API
+and push the stuff back to GitLab.
+Voilà: now you can reach your own Eye instance on [username].gitlab.io/eye.
 All you need to do is to download the source code,
 add your API to the [configuration](src/config/configuration-template.js)
 and open the site in a browser.
