@@ -182,7 +182,7 @@ function isInCurrentWeek(dateString) {
 	today.setSeconds(0);
 	var dayOfWeek = today.getDay();
 	var diffToLastMonday = today.getDate() - dayOfWeek + (dayOfWeek == 0 ? -6 : 1);
-	var diffToNextSunday = today.getDate() + dayOfWeek + (dayOfWeek == 0 ? 6 : -1);
+	var diffToNextSunday = today.getDate() - dayOfWeek + (dayOfWeek == 0 ? 0 : 7);
 
 	var lastMonday = new Date(today.setDate(diffToLastMonday));
 	var nextSunday = new Date(today.setDate(diffToNextSunday));
