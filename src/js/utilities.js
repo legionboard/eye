@@ -243,6 +243,10 @@ function getISODate(dayOffSet) {
 function logout() {
 	localStorage.removeItem("authKey");
 	deleteCookie('authKey');
+	localStorage.removeItem("filteredTeachers");
+	deleteCookie('filteredTeachers');
+	localStorage.removeItem("filteredCourses");
+	deleteCookie('filteredCourses');
 }
 
 function setTitle() {
