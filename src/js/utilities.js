@@ -6,7 +6,7 @@
  */
 var title = appConfig['title'];
 setTitle();
-var version = '0.2.1-beta';
+var version = '0.2.1';
 setVersion();
 // Prevent caching in ajax calls
 $.ajaxSetup({ cache: false });
