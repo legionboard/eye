@@ -177,6 +177,31 @@ function getChanges(startBy, endBy, teacher, course) {
 	endBy = (endBy != null) ? endBy : 'i1w';
 	if (teacher != null && teacher[0] == null) {
 		teacher = null;
+		setFilteredTeachers("");
+	}
+	if (teacher == null) {
+		var filteredTeachers = getFilteredTeachers();
+		if (filteredTeachers != "") {
+			teacher = filteredTeachers;
+		}
+	}
+	else if (teacher != null && teacher[0] != null) {
+	    teacher = "0," + teacher.join();
+	    setFilteredTeachers(teacher);
+	}
+	if (course != null && course[0] == null) {
+		course = null;
+		setFilteredCourses("");
+	}
+	if (course == null) {
+		var filteredCourses = getFilteredCourses();
+		if (filteredCourses != "") {
+			course = filteredCourses;
+		}
+	}
+	else if (course != null && course[0] != null) {
+	    course = "0," + course.join();
+	    setFilteredCourses(course);
 	}
 	// Get changes
 	$.getJSON(appConfig['apiRoot'] + '/changes?k=' + getAuthenticationKey() + '&startBy=' + startBy + '&endBy=' + endBy + ((teacher != null) ? ('&teachers=' + teacher) : '') + ((course != null) ? ('&courses=' + course) : ''))
@@ -251,6 +276,13 @@ function drawTeachers() {
 		var y = b[1].toLowerCase();
 		return x < y ? -1 : x > y ? 1 : 0;
 	});
+	var filteredTeachers = getFilteredTeachers();
+	if (filteredTeachers != null && filteredTeachers != "") {
+		filteredTeachers = filteredTeachers.split(",");
+	}
+	else {
+		filteredTeachers = "";
+	}
 	for (var key in sortable) {
 		if (!archivedTeachers[sortable[key][0]]) {
 			var teacherId = sortable[key][0];
@@ -260,6 +292,11 @@ function drawTeachers() {
 						'<label for="teacherCheck_' + teacherId + '">' + teacherName + '</label>' +
 						'</li>';
 			$("#teacherDrop ul").append(row);
+			if (filteredTeachers != "" && filteredTeachers.indexOf(teacherId) != -1) {
+				$("#teacherCheck_" + teacherId).prop("checked", true);
+				$("#teacherDrop button").html("Lehrer ausgewählt <span class='caret'></span>");
+				$("#reset").show();
+			}
 		}
 	}
 	$("#teacherDrop").show();
@@ -294,6 +331,13 @@ function drawCourses() {
 		var y = b[1].toLowerCase();
 		return x < y ? -1 : x > y ? 1 : 0;
 	});
+	var filteredCourses = getFilteredCourses();
+	if (filteredCourses != null && filteredCourses != "") {
+		filteredCourses = filteredCourses.split(",");
+	}
+	else {
+		filteredCourses = "";
+	}
 	for (var key in sortable) {
 		if (!archivedCourses[sortable[key][0]]) {
 			var courseId = sortable[key][0];
@@ -303,6 +347,11 @@ function drawCourses() {
 						'<label for="courseCheck_' + courseId + '">' + courseName + '</label>' +
 						'</li>';
 			$("#courseDrop ul").append(row);
+			if (filteredCourses != "" && filteredCourses.indexOf(courseId) != -1) {
+				$("#courseCheck_" + courseId).prop("checked", true);
+				$("#courseDrop button").html("Kurse ausgewählt <span class='caret'></span>");
+				$("#reset").show();
+			}
 		}
 	}
 	$("#courseDrop").show();
@@ -622,3 +671,68 @@ function deleteChanges(ids) {
 		});
 	});
 }
+
+function setFilteredCourses(filteredCourses) {
+	if (typeof(Storage) !== 'undefined') {
+		try {
+			localStorage.filteredCourses = filteredCourses;
+		}
+		catch (error) {
+			console.log(error);
+		}
+	}
+	else {
+		setCookie('filteredCourses', filteredCourses);
+	}
+}
+
+function getFilteredCourses() {
+	if (typeof(Storage) !== 'undefined') {
+		try {
+			return localStorage.filteredCourses;
+		}
+		catch (error) {
+			console.log(error);
+		}
+	}
+	else {
+		return getCookie('filteredCourses');
+	}
+}
+
+function setFilteredTeachers(filteredTeachers) {
+	if (typeof(Storage) !== 'undefined') {
+		try {
+			localStorage.filteredTeachers = filteredTeachers;
+		}
+		catch (error) {
+			console.log(error);
+		}
+	}
+	else {
+		setCookie('filteredTeachers', filteredTeachers);
+	}
+}
+
+function getFilteredTeachers() {
+	if (typeof(Storage) !== 'undefined') {
+		try {
+			return localStorage.filteredTeachers;
+		}
+		catch (error) {
+			console.log(error);
+		}
+	}
+	else {
+		return getCookie('filteredTeachers');
+	}
+}
+
+$("#reset").click(function(e) {
+	e.preventDefault(); 
+	localStorage.removeItem("filteredTeachers");
+	deleteCookie('filteredTeachers');
+	localStorage.removeItem("filteredCourses");
+	deleteCookie('filteredCourses');
+	location.reload();
+});

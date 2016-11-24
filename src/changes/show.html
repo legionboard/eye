@@ -131,8 +131,8 @@
 								<input type="text" id="endBy" placeholder="Ende *" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
 							</div>
 						</div>
-						<div class="form-group" id="teacherDrop">
-							<div class="btn-group">
+						<div class="form-group">
+							<div class="btn-group" id="teacherDrop">
 								<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" data-placeholder="Lehrer">Lehrer <span class="caret"></span></button>
 								<ul class="dropdown-menu dropdown-scrollable"></ul>
 							</div>
@@ -142,8 +142,9 @@
 								<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" data-placeholder="Kurse">Kurse <span class="caret"></span></button>
 								<ul class="dropdown-menu dropdown-scrollable"></ul>
 							</div>
-							<button type="submit" class="btn btn-success no-print pull-right">Aktualisieren</button>
+							<button id="reset" class="btn btn-success no-print pull-right" style="display: none">Zurücksetzen</button>
 						</div>
+						<button type="submit" class="btn btn-success btn-block no-print">Aktualisieren</button>
 					</form>
 				</div>
 			</div>
