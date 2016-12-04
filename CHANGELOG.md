@@ -2,7 +2,7 @@
 
 ## 0.2.2 (04.12.2016)
 
-* Fix bug with course not being selected when editing changes
+* Fix bug with course not being selected when editing changes (#31)
 * Courses in changes table are now bold too
 
 ## 0.2.1 (24.11.2016)
