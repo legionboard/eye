@@ -308,7 +308,7 @@ function insert(data) {
 		var teacherName = teachers.filter(function(obj) {
 				return obj[0] == teacher;
 			})[0][1];
-		$("#teacherDrop button").text(teacherName);
+		$("#teacherDrop button").html(teacherName + " <span class='caret'></span>");
 	}
 	// Set course
 	var course = data['course'];
@@ -318,7 +318,7 @@ function insert(data) {
 		var courseName = courses.filter(function(obj) {
 				return obj[0] == course;
 			})[0][1];
-		$("#courseDrop button").text(courseName);
+		$("#courseDrop button").html(courseName + " <span class='caret'></span>");
 	}
 	else {
 		sweetAlert("Ups...", "Es gab einen Fehler. Bitte versuche es später erneut.", "error");
