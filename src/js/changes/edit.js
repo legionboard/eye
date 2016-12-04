@@ -310,6 +310,19 @@ function insert(data) {
 			})[0][1];
 		$("#teacherDrop button").text(teacherName);
 	}
+	// Set course
+	var course = data['course'];
+	if (course != 0) {
+		document.getElementById('courseCheck_' + course).checked = true;
+		$('#courseCheck_' + course).parent().addClass('active');
+		var courseName = courses.filter(function(obj) {
+				return obj[0] == course;
+			})[0][1];
+		$("#courseDrop button").text(courseName);
+	}
+	else {
+		sweetAlert("Ups...", "Es gab einen Fehler. Bitte versuche es später erneut.", "error");
+	}
 	// Set covering teacher
 	var coveringTeacher = data['coveringTeacher'];
 	if (coveringTeacher != 0) {
