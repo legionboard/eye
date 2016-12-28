@@ -320,9 +320,6 @@ function insert(data) {
 			})[0][1];
 		$("#courseDrop button").html(courseName + " <span class='caret'></span>");
 	}
-	else {
-		sweetAlert("Ups...", "Es gab einen Fehler. Bitte versuche es später erneut.", "error");
-	}
 	// Set covering teacher
 	var coveringTeacher = data['coveringTeacher'];
 	if (coveringTeacher != 0) {
