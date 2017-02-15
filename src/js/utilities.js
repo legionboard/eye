@@ -28,7 +28,7 @@ function deleteAuthenticationKey() {
 }
 function getAuthenticationKey() {
 	// Check whether local storage works
-	if (typeof(Storage) !== 'undefined') {
+	if (isLocalStorageNameSupported()) {
 		try {
 			return localStorage.authKey;
 		}
@@ -42,7 +42,7 @@ function getAuthenticationKey() {
 }
 
 function setAuthenticationKey(authKey) {
-	if (typeof(Storage) !== 'undefined') {
+	if (isLocalStorageNameSupported()) {
 		try {
 			localStorage.authKey = authKey;
 		}
@@ -112,6 +112,18 @@ function getCookie(cname) {
 
 function deleteCookie(cname) {
 	document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+}
+
+function isLocalStorageNameSupported() {
+    var testKey = 'test', storage = window.sessionStorage;
+    try {
+        storage.setItem(testKey, '1');
+        storage.removeItem(testKey);
+        return localStorageName in win && win[localStorageName];
+    }
+    catch (error) {
+        return false;
+    }
 }
 
 /*
