@@ -1,5 +1,10 @@
 # Changelog of LegionBoard Eye
 
+## 0.2.3 (15.02.2017)
+
+* Fix bug with Safari private browsing mode
+* Fix bug with editing changes when there are no courses available
+
 ## 0.2.2 (04.12.2016)
 
 * Fix bug with course not being selected when editing changes (#31)
