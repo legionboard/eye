@@ -8,8 +8,8 @@
  * See the file "LICENSE" for the full license governing this code.
  */
 var appConfig = {
-	// Root URL of LegionBoard REST API (no slash at the end)
-	'apiRoot': 'https://api.legionboard.example.com',
+	// Root URL of LegionBoard Heart (no slash at the end)
+	'apiRoot': 'https://example.com/legionboard/heart',
 	// Title for LegionBoard
 	'title': 'LegionBoard'
 };

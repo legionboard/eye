@@ -7,8 +7,9 @@ Dieses Dokument wird Sie durch die Installation von LegionBoard Eye führen.
 Sie können die Online-Version auf
 [GitLab](https://gitlab.com/legionboard/eye/blob/master/install/german.md) und
 [GitHub](https://github.com/legionboard/eye/blob/master/install/german.md) finden.
-Wenn Sie einen Fehler entdecken oder eine Frage haben, öffnen Sie bitte
-einen Issue auf [GitLab](https://gitlab.com/legionboard/eye/issues).
+Wenn Sie einen Fehler entdecken oder eine Frage haben, zögern Sie nicht,
+einen Issue auf [GitLab](https://gitlab.com/legionboard/eye/issues) zu eröffnen
+oder senden Sie mir eine [E-Mail](mailto:nicoalt@posteo.org).
 
 ## Herunterladen
 
@@ -26,7 +27,7 @@ und benennen die Datei "configuration-template.js" in "configuration.js"
 um. Danach müssen Sie "configuration.js" mit einem Text-Editor öffnen und
 die folgende Zeile bearbeiten:
 ```
-'apiRoot': 'https://api.legionboard.example.com',
+'apiRoot': 'https://example.com/legionboard/heart',
 ```
 
 Nachdem Sie dies konfiguriert haben, ist Ihre LegionBoard Eye Instanz

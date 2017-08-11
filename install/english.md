@@ -8,7 +8,8 @@ You can find the online version on
 [GitLab](https://gitlab.com/legionboard/eye/blob/master/install/english.md) and
 [GitHub](https://github.com/legionboard/eye/blob/master/install/english.md). If
 you spot an issue or have a question, don't hestiate to open an issue
-on [GitLab](https://gitlab.com/legionboard/eye/issues).
+on [GitLab](https://gitlab.com/legionboard/eye/issues) or send me a
+[mail](mailto:nicoalt@posteo.org).
 
 ## Download
 
@@ -25,7 +26,7 @@ Eye download and rename "configuration-template.js" to "configuration.js".
 Then open "configuration.js" with a text editor and edit the following
 line:
 ```
-'apiRoot': 'https://api.legionboard.example.com',
+'apiRoot': 'https://example.com/legionboard/heart',
 ```
 
 After you configured this, your LegionBoard Eye instance is ready to use.
