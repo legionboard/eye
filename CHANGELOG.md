@@ -1,5 +1,9 @@
 # Changelog of LegionBoard Eye
 
+## 0.2.4 (27.08.2017)
+
+* Fix bug with having to reauthenticate for different resources
+
 ## 0.2.3 (15.02.2017)
 
 * Fix bug with Safari private browsing mode
