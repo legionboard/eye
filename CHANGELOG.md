@@ -1,5 +1,10 @@
 # Changelog of LegionBoard Eye
 
+## 0.2.5 (21.07.2018)
+
+* Fix links to Nico's and LegionBoard's website
+* Bump copyright's year
+
 ## 0.2.4 (27.08.2017)
 
 * Fix bug with having to reauthenticate for different resources
