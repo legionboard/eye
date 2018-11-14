@@ -24,17 +24,14 @@ completed, unzip the archive you just downloaded.
 Go to "src/config" in the directory of your unzipped LegionBoard
 Eye download and rename "configuration-template.js" to "configuration.js".
 Then open "configuration.js" with a text editor and edit the following
-line:
+line to point at the address of your LegionBoard Heart directory:
 ```
 'apiRoot': 'https://example.com/legionboard/heart',
 ```
 
-After you configured this, your LegionBoard Eye instance is ready to use.
-But likely you want to deploy it on your school's server.
+## Deploy on your server
 
-## Optional: Deploy on your server
-
-Therefore, open the tool you usually use for uploading files, for example
+Open the tool you usually use for uploading files, for example
 [FileZilla](https://filezilla-project.org/), and upload the whole "src"
-directory. I recommend renaming it to "eye" and push it in a folder
+directory. I recommend renaming it to "eye" and pushing it to a folder
 named "legionboard".
