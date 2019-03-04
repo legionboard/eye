@@ -3,6 +3,11 @@
 *This is the English version of the installation guide. Other available
 languages are: [Deutsch](german.md)*
 
+**Deprecation notice: As of March 2019,
+LegionBoard is officially declared end of life.
+There won't be any further development and
+schools should not consider start using it.**
+
 This document will guide you through the installation of LegionBoard Eye.
 You can find the online version on
 [GitLab](https://gitlab.com/legionboard/eye/blob/master/install/english.md) and

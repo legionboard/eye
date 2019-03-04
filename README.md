@@ -2,6 +2,11 @@
 
 [![Code Climate](https://codeclimate.com/github/legionboard/eye/badges/gpa.svg)](https://codeclimate.com/github/legionboard/eye)
 
+**Deprecation notice: As of March 2019,
+LegionBoard is officially declared end of life.
+There won't be any further development and
+schools should not consider start using it.**
+
 This is the eye of [LegionBoard](https://legionboard.dorfbrunnen.eu):
 it is the preferred client of its
 [REST API](https://gitlab.com/legionboard/heart)
